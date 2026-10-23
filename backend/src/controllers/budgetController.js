@@ -83,9 +83,10 @@ export async function setBudgetForMonth(req, res, next) {
       });
     }
 
+    // Upsert budget record strictly scoped to this authenticated user
     const budget = await MonthlyBudget.findOneAndUpdate(
       { userId: req.user.id, month },
-      { userId: req.user.id, month, amountPaise, updatedAt: new Date() },
+      { $set: { userId: req.user.id, month, amountPaise, updatedAt: new Date() } },
       { upsert: true, new: true, runValidators: true, setDefaultsOnInsert: true }
     );
 
@@ -96,6 +97,26 @@ export async function setBudgetForMonth(req, res, next) {
       message: 'Budget saved successfully.',
     });
   } catch (error) {
+    // If a duplicate key race condition occurs, safely perform update on existing document
+    if (error.code === 11000) {
+      try {
+        const updated = await MonthlyBudget.findOneAndUpdate(
+          { userId: req.user.id, month: req.params.month },
+          { $set: { amountPaise: req.body.amountPaise, updatedAt: new Date() } },
+          { new: true }
+        );
+        if (updated) {
+          return res.status(200).json({
+            month: updated.month,
+            amountPaise: updated.amountPaise,
+            isSet: true,
+            message: 'Budget saved successfully.',
+          });
+        }
+      } catch (fallbackErr) {
+        console.error('[SpendWise] Budget upsert recovery failed:', fallbackErr);
+      }
+    }
     next(error);
   }
 }

@@ -30,9 +30,15 @@ export function errorHandler(err, req, res, next) {
   // MongoDB duplicate key error (code 11000)
   if (err.code === 11000) {
     const field = Object.keys(err.keyPattern || {})[0] || 'field';
-    return res.status(400).json({
+    let message = `A record with that ${field} already exists.`;
+    if (field === 'email') {
+      message = 'An account with this email address already exists.';
+    } else if (field === 'month') {
+      message = 'A budget for this month already exists. You can update it anytime.';
+    }
+    return res.status(409).json({
       error: 'Duplicate Entry',
-      message: `A record with that ${field} already exists.`,
+      message,
     });
   }
 
