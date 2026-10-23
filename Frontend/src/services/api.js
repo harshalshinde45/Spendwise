@@ -2,6 +2,47 @@
  * Central HTTP client for SpendWise API communications.
  */
 
+export const AUTH_TOKEN_KEY = 'spendwise:auth_token';
+
+let unauthorizedListener = null;
+
+function getStorage() {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return window.localStorage;
+    }
+    if (typeof localStorage !== 'undefined') {
+      return localStorage;
+    }
+  } catch (e) {
+    console.warn('localStorage is not accessible:', e);
+  }
+  return null;
+}
+
+export function registerUnauthorizedHandler(callback) {
+  unauthorizedListener = callback;
+}
+
+export function getStoredToken() {
+  const storage = getStorage();
+  if (storage) {
+    return storage.getItem(AUTH_TOKEN_KEY);
+  }
+  return null;
+}
+
+export function setStoredToken(token) {
+  const storage = getStorage();
+  if (storage) {
+    if (token) {
+      storage.setItem(AUTH_TOKEN_KEY, token);
+    } else {
+      storage.removeItem(AUTH_TOKEN_KEY);
+    }
+  }
+}
+
 const defaultBase = import.meta.env.PROD
   ? 'https://spendwise-uope.onrender.com/api'
   : '/api';
@@ -30,13 +71,23 @@ export class ApiError extends Error {
 export async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
+  const headers = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    ...options.headers,
+  };
+
+  // Automatically attach Bearer token if not explicitly provided and token exists
+  if (!headers.Authorization && !headers.authorization) {
+    const token = getStoredToken();
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+  }
+
   const config = {
     ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      ...options.headers,
-    },
+    headers,
   };
 
   if (config.body && typeof config.body === 'object' && !(config.body instanceof FormData)) {
@@ -74,6 +125,13 @@ export async function apiRequest(endpoint, options = {}) {
         responseData.message ||
         responseData.error ||
         (Array.isArray(responseData.details) ? responseData.details.join(' ') : errorMessage);
+    }
+
+    // Trigger unauthorized callback on 401 if not calling login or register
+    if (response.status === 401 && !endpoint.includes('/auth/login') && !endpoint.includes('/auth/register')) {
+      if (typeof unauthorizedListener === 'function') {
+        unauthorizedListener();
+      }
     }
 
     throw new ApiError(errorMessage, response.status, responseData);

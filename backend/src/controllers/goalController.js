@@ -3,11 +3,11 @@ import { isValidObjectId } from '../utils/validation.js';
 
 /**
  * GET /api/goals
- * Retrieve all user savings goals.
+ * Retrieve all savings goals for the authenticated user.
  */
 export async function getGoals(req, res, next) {
   try {
-    const goals = await Goal.find().sort({ createdAt: -1 });
+    const goals = await Goal.find({ userId: req.user.id }).sort({ createdAt: -1 });
     res.status(200).json(goals);
   } catch (error) {
     next(error);
@@ -16,7 +16,7 @@ export async function getGoals(req, res, next) {
 
 /**
  * POST /api/goals
- * Create a new savings goal.
+ * Create a new savings goal for the authenticated user.
  */
 export async function createGoal(req, res, next) {
   try {
@@ -38,6 +38,7 @@ export async function createGoal(req, res, next) {
     }
 
     const newGoal = await Goal.create({
+      userId: req.user.id,
       name: name.trim(),
       targetPaise: parsedTarget,
       savedPaise: Number.isInteger(Number(savedPaise)) ? Math.max(0, Number(savedPaise)) : 0,
@@ -55,7 +56,7 @@ export async function createGoal(req, res, next) {
 
 /**
  * PUT /api/goals/:id
- * Update goal details or savings amount.
+ * Update goal details or savings amount for the authenticated user.
  */
 export async function updateGoal(req, res, next) {
   try {
@@ -98,9 +99,14 @@ export async function updateGoal(req, res, next) {
     if (category !== undefined) updates.category = String(category).trim();
     if (color !== undefined) updates.color = String(color).trim();
 
-    const updatedGoal = await Goal.findByIdAndUpdate(id, updates, { new: true, runValidators: true });
+    const updatedGoal = await Goal.findOneAndUpdate(
+      { _id: id, userId: req.user.id },
+      updates,
+      { new: true, runValidators: true }
+    );
+
     if (!updatedGoal) {
-      return res.status(404).json({ error: 'Not Found', message: 'Savings goal not found.' });
+      return res.status(404).json({ error: 'Not Found', message: 'Savings goal not found or belongs to another user.' });
     }
 
     res.status(200).json(updatedGoal);
@@ -111,7 +117,7 @@ export async function updateGoal(req, res, next) {
 
 /**
  * DELETE /api/goals/:id
- * Remove a savings goal.
+ * Remove a savings goal owned by the authenticated user.
  */
 export async function deleteGoal(req, res, next) {
   try {
@@ -123,9 +129,9 @@ export async function deleteGoal(req, res, next) {
       });
     }
 
-    const deleted = await Goal.findByIdAndDelete(id);
+    const deleted = await Goal.findOneAndDelete({ _id: id, userId: req.user.id });
     if (!deleted) {
-      return res.status(404).json({ error: 'Not Found', message: 'Savings goal not found.' });
+      return res.status(404).json({ error: 'Not Found', message: 'Savings goal not found or belongs to another user.' });
     }
 
     res.status(200).json({ message: 'Savings goal deleted successfully.' });
@@ -136,7 +142,7 @@ export async function deleteGoal(req, res, next) {
 
 /**
  * POST /api/goals/:id/contribute
- * Add savings towards a goal.
+ * Add savings towards a goal owned by the authenticated user.
  */
 export async function contributeToGoal(req, res, next) {
   try {
@@ -151,9 +157,9 @@ export async function contributeToGoal(req, res, next) {
       return res.status(400).json({ error: 'Validation Error', message: 'Contribution amount must be a positive integer in paise.' });
     }
 
-    const goal = await Goal.findById(id);
+    const goal = await Goal.findOne({ _id: id, userId: req.user.id });
     if (!goal) {
-      return res.status(404).json({ error: 'Not Found', message: 'Savings goal not found.' });
+      return res.status(404).json({ error: 'Not Found', message: 'Savings goal not found or belongs to another user.' });
     }
 
     goal.savedPaise += parsedAmount;

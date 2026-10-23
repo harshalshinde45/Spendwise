@@ -23,6 +23,7 @@ import {
   calculateSpendingSpeedometer,
   calculateExpenseDetective,
 } from '../utils/intelligence';
+import { useAuth } from './AuthContext';
 
 const ExpenseContext = createContext(null);
 
@@ -205,10 +206,28 @@ export function ExpenseProvider({ children }) {
     }
   }, [checkLocalStorageMigration]);
 
-  // Initial load
+  // Auth awareness for data loading & session isolation
+  let isAuthenticated = true;
+  let currentUserId = null;
+  try {
+    const auth = useAuth();
+    isAuthenticated = auth.isAuthenticated;
+    currentUserId = auth.user?.id;
+  } catch {
+    // Graceful fallback if ExpenseProvider is rendered outside AuthProvider
+  }
+
+  // Load backend data when authenticated; clear in-memory state when unauthenticated
   useEffect(() => {
-    loadBackendData();
-  }, [loadBackendData]);
+    if (isAuthenticated) {
+      loadBackendData();
+    } else {
+      setExpenses([]);
+      setBudgets({});
+      setGoals([]);
+      setIsLoading(false);
+    }
+  }, [isAuthenticated, currentUserId, loadBackendData]);
 
   // --- CRUD Operations (Connecting to MongoDB via REST API) ---
 

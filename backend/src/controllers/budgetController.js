@@ -3,11 +3,11 @@ import { validateBudgetInput, isValidMonthKey } from '../utils/validation.js';
 
 /**
  * GET /api/budgets
- * Retrieve all configured budgets as a key-value dictionary { "YYYY-MM": amountPaise }.
+ * Retrieve all configured budgets for the authenticated user as { "YYYY-MM": amountPaise }.
  */
 export async function getAllBudgets(req, res, next) {
   try {
-    const budgets = await MonthlyBudget.find().sort({ month: -1 });
+    const budgets = await MonthlyBudget.find({ userId: req.user.id }).sort({ month: -1 });
     const budgetMap = {};
     for (const b of budgets) {
       budgetMap[b.month] = b.amountPaise;
@@ -20,7 +20,7 @@ export async function getAllBudgets(req, res, next) {
 
 /**
  * GET /api/budgets/:month
- * Retrieve budget for a particular month.
+ * Retrieve budget for a particular month for the authenticated user.
  */
 export async function getBudgetByMonth(req, res, next) {
   try {
@@ -33,7 +33,7 @@ export async function getBudgetByMonth(req, res, next) {
       });
     }
 
-    const budget = await MonthlyBudget.findOne({ month });
+    const budget = await MonthlyBudget.findOne({ userId: req.user.id, month });
     if (!budget) {
       return res.status(200).json({
         month,
@@ -56,7 +56,7 @@ export async function getBudgetByMonth(req, res, next) {
 
 /**
  * PUT /api/budgets/:month
- * Create or update the budget for that month.
+ * Create or update the budget for that month for the authenticated user.
  */
 export async function setBudgetForMonth(req, res, next) {
   try {
@@ -72,9 +72,9 @@ export async function setBudgetForMonth(req, res, next) {
 
     const { amountPaise } = validation.sanitized;
 
-    // If budget is set to 0, remove the document
+    // If budget is set to 0, remove the document for this user
     if (amountPaise === 0) {
-      await MonthlyBudget.findOneAndDelete({ month });
+      await MonthlyBudget.findOneAndDelete({ userId: req.user.id, month });
       return res.status(200).json({
         month,
         amountPaise: 0,
@@ -84,8 +84,8 @@ export async function setBudgetForMonth(req, res, next) {
     }
 
     const budget = await MonthlyBudget.findOneAndUpdate(
-      { month },
-      { month, amountPaise, updatedAt: new Date() },
+      { userId: req.user.id, month },
+      { userId: req.user.id, month, amountPaise, updatedAt: new Date() },
       { upsert: true, new: true, runValidators: true, setDefaultsOnInsert: true }
     );
 

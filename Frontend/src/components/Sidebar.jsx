@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useExpense } from '../context/ExpenseContext';
+import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard,
   Receipt,
@@ -14,6 +15,7 @@ import {
   Sun,
   Moon,
   Database,
+  LogOut,
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -21,6 +23,14 @@ const COLLAPSED_STORAGE_KEY = 'spendwise:sidebar_collapsed';
 
 export function Sidebar({ activeTab, onTabChange }) {
   const { openAddModal, theme, setTheme, dbState } = useExpense();
+  const { user, logout } = useAuth();
+
+  const userInitials = (user?.name || 'User')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0].toUpperCase())
+    .join('');
 
   const [isCollapsed, setIsCollapsed] = useState(() => {
     try {
@@ -153,6 +163,30 @@ export function Sidebar({ activeTab, onTabChange }) {
           </div>
         ))}
       </nav>
+
+      {/* Authenticated User Session Profile */}
+      {user && (
+        <div className={`sidebar-user-section ${isCollapsed ? 'collapsed' : ''}`}>
+          <div className="user-avatar-badge" title={user.name}>
+            {userInitials}
+          </div>
+          {!isCollapsed && (
+            <div className="user-info-text">
+              <span className="user-display-name">{user.name}</span>
+              <span className="user-email-text" title={user.email}>{user.email}</span>
+            </div>
+          )}
+          <button
+            type="button"
+            className="sidebar-logout-btn"
+            onClick={logout}
+            title="Sign Out"
+            aria-label="Sign Out"
+          >
+            <LogOut size={16} />
+          </button>
+        </div>
+      )}
 
       {/* Sidebar Footer Controls */}
       <div className="sidebar-footer">

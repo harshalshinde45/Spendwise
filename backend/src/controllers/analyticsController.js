@@ -4,7 +4,7 @@ import { isValidMonthKey } from '../utils/validation.js';
 
 /**
  * GET /api/analytics/monthly/:month
- * Returns monthly analytics calculated from real database records.
+ * Returns monthly analytics calculated from real database records for the authenticated user.
  */
 export async function getMonthlyAnalytics(req, res, next) {
   try {
@@ -17,13 +17,16 @@ export async function getMonthlyAnalytics(req, res, next) {
       });
     }
 
-    // 1. Fetch all expenses for the target month
-    const expenses = await Expense.find({ date: { $regex: `^${month}` } });
+    // 1. Fetch all expenses for the target month for authenticated user
+    const expenses = await Expense.find({
+      userId: req.user.id,
+      date: { $regex: `^${month}` },
+    });
     const transactionCount = expenses.length;
     const totalSpentPaise = expenses.reduce((sum, exp) => sum + exp.amountPaise, 0);
 
-    // 2. Fetch budget for the target month
-    const budgetDoc = await MonthlyBudget.findOne({ month });
+    // 2. Fetch budget for the target month for authenticated user
+    const budgetDoc = await MonthlyBudget.findOne({ userId: req.user.id, month });
     const budgetPaise = budgetDoc ? budgetDoc.amountPaise : 0;
     const isBudgetSet = budgetPaise > 0;
 
@@ -98,8 +101,8 @@ export async function getMonthlyAnalytics(req, res, next) {
       transactionCount,
       averageExpensePaise,
       budget: {
-        isSet: isBudgetSet,
         budgetPaise,
+        isSet: isBudgetSet,
         remainingPaise,
         remainingPercent,
         utilizationPercent,

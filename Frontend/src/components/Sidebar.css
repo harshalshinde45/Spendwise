@@ -247,6 +247,86 @@
   background-color: var(--sidebar-hover);
 }
 
+/* User Session Section in Sidebar */
+.sidebar-user-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2-5);
+  padding: var(--space-2-5) var(--space-2);
+  margin-top: auto;
+  margin-bottom: var(--space-3);
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--sidebar-border);
+  border-radius: var(--radius-md);
+}
+
+.sidebar-user-section.collapsed {
+  justify-content: center;
+  padding: var(--space-2) 0;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.user-avatar-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-primary);
+  color: #FFFFFF;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+
+.user-info-text {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+}
+
+.user-display-name {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--sidebar-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.user-email-text {
+  font-size: 11px;
+  color: var(--sidebar-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.sidebar-logout-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  color: var(--sidebar-text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sidebar-logout-btn:hover {
+  color: var(--status-danger);
+  background-color: rgba(181, 63, 63, 0.15);
+}
+
 @media (max-width: 900px) {
   .app-sidebar {
     display: none;

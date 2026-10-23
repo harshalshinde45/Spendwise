@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useExpense } from '../context/ExpenseContext';
+import { useAuth } from '../context/AuthContext';
 import { PageHeader } from '../components/PageHeader';
 import { formatMonthReadable, getPreviousMonthKey, getNextMonthKey } from '../utils/dates';
 import { formatINR, paiseToInputValue } from '../utils/currency';
@@ -17,10 +18,13 @@ import {
   Info,
   Database,
   UploadCloud,
+  UserCheck,
+  LogOut,
 } from 'lucide-react';
 import './SettingsPage.css';
 
 export function SettingsPage() {
+  const { user, logout } = useAuth();
   const {
     theme,
     setTheme,
@@ -101,6 +105,48 @@ export function SettingsPage() {
       />
 
       <div className="settings-stack">
+        {/* User Account & Session */}
+        {user && (
+          <section className="card settings-section-card" aria-labelledby="account-info-heading">
+            <div className="section-card-header">
+              <h2 id="account-info-heading" className="section-title">
+                Account & Workspace
+              </h2>
+              <p className="section-description">
+                Your private individual workspace. Financial records are isolated and protected.
+              </p>
+            </div>
+
+            <div className="account-details-grid">
+              <div className="account-detail-item">
+                <span className="account-detail-label">Full Name</span>
+                <span className="account-detail-value">{user.name}</span>
+              </div>
+              <div className="account-detail-item">
+                <span className="account-detail-label">Email Address</span>
+                <span className="account-detail-value">{user.email}</span>
+              </div>
+              <div className="account-detail-item">
+                <span className="account-detail-label">Account Status</span>
+                <span className="account-detail-value status-badge-active">
+                  <UserCheck size={14} /> Active Individual Account
+                </span>
+              </div>
+            </div>
+
+            <div className="account-action-row">
+              <button
+                type="button"
+                className="btn btn-secondary btn-logout"
+                onClick={logout}
+              >
+                <LogOut size={16} />
+                <span>Log Out of SpendWise</span>
+              </button>
+            </div>
+          </section>
+        )}
+
         {/* A. General Preferences */}
         <section className="card settings-section-card" aria-labelledby="general-pref-heading">
           <div className="section-card-header">

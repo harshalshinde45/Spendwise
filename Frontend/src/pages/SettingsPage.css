@@ -372,3 +372,57 @@
     align-items: stretch;
   }
 }
+
+/* Account & Session Section */
+.account-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.account-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.account-detail-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.account-detail-value {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.status-badge-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--status-success);
+}
+
+.account-action-row {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: var(--space-2);
+}
+
+.btn-logout {
+  color: var(--status-danger);
+  border-color: var(--status-danger-border);
+}
+
+.btn-logout:hover {
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger);
+}

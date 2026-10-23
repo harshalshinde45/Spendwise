@@ -4,8 +4,8 @@ import { validateExpenseInput, isValidMonthKey } from '../utils/validation.js';
 
 /**
  * POST /api/migrate
- * Safely imports an array of expenses and a map of budgets from client Local Storage.
- * Prevents duplicates by checking existing records matching (date, amountPaise, category, description).
+ * Safely imports an array of expenses and a map of budgets from client Local Storage
+ * into the authenticated user's account.
  */
 export async function migrateLocalStorageData(req, res, next) {
   try {
@@ -32,8 +32,9 @@ export async function migrateLocalStorageData(req, res, next) {
 
       const { amountPaise, category, date, description } = validation.sanitized;
 
-      // Duplicate prevention: check if identical record already exists
+      // Duplicate prevention: check if identical record already exists for this user
       const existing = await Expense.findOne({
+        userId: req.user.id,
         amountPaise,
         category,
         date,
@@ -44,6 +45,7 @@ export async function migrateLocalStorageData(req, res, next) {
         skippedExpensesCount++;
       } else {
         await Expense.create({
+          userId: req.user.id,
           amountPaise,
           category,
           date,
@@ -61,8 +63,8 @@ export async function migrateLocalStorageData(req, res, next) {
 
       if (amount > 0) {
         await MonthlyBudget.findOneAndUpdate(
-          { month: monthKey },
-          { month: monthKey, amountPaise: amount, updatedAt: new Date() },
+          { userId: req.user.id, month: monthKey },
+          { userId: req.user.id, month: monthKey, amountPaise: amount, updatedAt: new Date() },
           { upsert: true, new: true, setDefaultsOnInsert: true }
         );
         importedBudgetsCount++;
@@ -85,16 +87,16 @@ export async function migrateLocalStorageData(req, res, next) {
 
 /**
  * DELETE /api/data
- * Clears all expense and budget records from the database.
+ * Clears all expense and budget records belonging strictly to the authenticated user.
  */
 export async function clearAllDatabaseData(req, res, next) {
   try {
-    const expResult = await Expense.deleteMany({});
-    const bgtResult = await MonthlyBudget.deleteMany({});
+    const expResult = await Expense.deleteMany({ userId: req.user.id });
+    const bgtResult = await MonthlyBudget.deleteMany({ userId: req.user.id });
 
     res.status(200).json({
       success: true,
-      message: 'All expense and monthly budget records have been permanently cleared from the database.',
+      message: 'All your expense and monthly budget records have been permanently cleared.',
       deletedExpensesCount: expResult.deletedCount,
       deletedBudgetsCount: bgtResult.deletedCount,
     });

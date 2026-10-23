@@ -3,12 +3,12 @@ import { validateExpenseInput, isValidObjectId, isValidMonthKey } from '../utils
 
 /**
  * GET /api/expenses
- * Retrieve expenses, with optional filtering by month and category, plus sorting.
+ * Retrieve expenses owned by the authenticated user, with optional filtering and sorting.
  */
 export async function getExpenses(req, res, next) {
   try {
     const { month, category, sort } = req.query;
-    const filter = {};
+    const filter = { userId: req.user.id };
 
     if (month) {
       if (!isValidMonthKey(month)) {
@@ -42,7 +42,7 @@ export async function getExpenses(req, res, next) {
 
 /**
  * GET /api/expenses/:id
- * Retrieve a single expense by ID.
+ * Retrieve a single expense by ID, restricted to the authenticated user.
  */
 export async function getExpenseById(req, res, next) {
   try {
@@ -55,7 +55,7 @@ export async function getExpenseById(req, res, next) {
       });
     }
 
-    const expense = await Expense.findById(id);
+    const expense = await Expense.findOne({ _id: id, userId: req.user.id });
     if (!expense) {
       return res.status(404).json({
         error: 'Not Found',
@@ -71,7 +71,7 @@ export async function getExpenseById(req, res, next) {
 
 /**
  * POST /api/expenses
- * Create a new expense after validating inputs.
+ * Create a new expense belonging strictly to the authenticated user.
  */
 export async function createExpense(req, res, next) {
   try {
@@ -83,7 +83,10 @@ export async function createExpense(req, res, next) {
       });
     }
 
-    const newExpense = new Expense(validation.sanitized);
+    const newExpense = new Expense({
+      ...validation.sanitized,
+      userId: req.user.id,
+    });
     const saved = await newExpense.save();
 
     res.status(201).json(saved);
@@ -94,7 +97,7 @@ export async function createExpense(req, res, next) {
 
 /**
  * PUT /api/expenses/:id
- * Update an existing expense.
+ * Update an existing expense owned by the authenticated user.
  */
 export async function updateExpense(req, res, next) {
   try {
@@ -115,15 +118,19 @@ export async function updateExpense(req, res, next) {
       });
     }
 
-    const updated = await Expense.findByIdAndUpdate(id, validation.sanitized, {
-      new: true,
-      runValidators: true,
-    });
+    const updated = await Expense.findOneAndUpdate(
+      { _id: id, userId: req.user.id },
+      validation.sanitized,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     if (!updated) {
       return res.status(404).json({
         error: 'Not Found',
-        message: `Expense with ID ${id} was not found.`,
+        message: `Expense with ID ${id} was not found or belongs to another user.`,
       });
     }
 
@@ -135,7 +142,7 @@ export async function updateExpense(req, res, next) {
 
 /**
  * DELETE /api/expenses/:id
- * Delete an existing expense.
+ * Delete an existing expense owned by the authenticated user.
  */
 export async function deleteExpense(req, res, next) {
   try {
@@ -148,11 +155,11 @@ export async function deleteExpense(req, res, next) {
       });
     }
 
-    const deleted = await Expense.findByIdAndDelete(id);
+    const deleted = await Expense.findOneAndDelete({ _id: id, userId: req.user.id });
     if (!deleted) {
       return res.status(404).json({
         error: 'Not Found',
-        message: `Expense with ID ${id} was not found.`,
+        message: `Expense with ID ${id} was not found or belongs to another user.`,
       });
     }
 

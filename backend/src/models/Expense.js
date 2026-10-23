@@ -3,6 +3,12 @@ import { ALLOWED_CATEGORIES, MAX_AMOUNT_PAISE, MAX_DESCRIPTION_LENGTH } from '..
 
 const expenseSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'userId is required'],
+      index: true,
+    },
     amountPaise: {
       type: Number,
       required: [true, 'amountPaise is required'],
@@ -67,8 +73,8 @@ const expenseSchema = new mongoose.Schema(
   }
 );
 
-// Compound indexes for performant monthly querying and category sorting
-expenseSchema.index({ date: -1, createdAt: -1 });
-expenseSchema.index({ category: 1, date: -1 });
+// Compound indexes for performant multi-tenant monthly querying and category sorting
+expenseSchema.index({ userId: 1, date: -1, createdAt: -1 });
+expenseSchema.index({ userId: 1, category: 1, date: -1 });
 
 export const Expense = mongoose.models.Expense || mongoose.model('Expense', expenseSchema);

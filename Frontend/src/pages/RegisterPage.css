@@ -1,0 +1,52 @@
+/* ==========================================================================
+   SpendWise Register Page Specific Styles
+   ========================================================================== */
+
+@import './LoginPage.css';
+
+/* Password Strength Meter */
+.password-strength-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--spacing-1);
+}
+
+.password-strength-bars {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  max-width: 140px;
+}
+
+.strength-bar {
+  height: 4px;
+  flex: 1;
+  border-radius: 2px;
+  background-color: var(--color-border);
+  transition: background-color 0.2s ease;
+}
+
+.strength-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.02em;
+}
+
+/* Password Match Indicator */
+.password-match-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1-5);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--spacing-1);
+}
+
+.password-match-indicator.matched {
+  color: var(--status-success);
+}
+
+.password-match-indicator.mismatched {
+  color: var(--status-danger);
+}

@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { requireDatabase } from '../config/database.js';
 import {
   getGoals,
   createGoal,
@@ -7,11 +6,14 @@ import {
   deleteGoal,
   contributeToGoal,
 } from '../controllers/goalController.js';
+import { requireDatabase } from '../config/database.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
-// Apply database connectivity check to all goal operations
+// Apply database connection check and authentication requirement
 router.use(requireDatabase);
+router.use(requireAuth);
 
 router.get('/', getGoals);
 router.post('/', createGoal);

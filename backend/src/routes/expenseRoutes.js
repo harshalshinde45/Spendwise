@@ -7,11 +7,13 @@ import {
   deleteExpense,
 } from '../controllers/expenseController.js';
 import { requireDatabase } from '../config/database.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
-// Apply requireDatabase to ensure MongoDB is ready
+// Apply database connection check and authentication requirement
 router.use(requireDatabase);
+router.use(requireAuth);
 
 router.get('/', getExpenses);
 router.get('/:id', getExpenseById);

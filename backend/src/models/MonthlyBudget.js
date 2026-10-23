@@ -3,6 +3,12 @@ import { MAX_AMOUNT_PAISE } from '../utils/validation.js';
 
 const monthlyBudgetSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'userId is required'],
+      index: true,
+    },
     month: {
       type: String,
       required: [true, 'month is required'],
@@ -18,12 +24,6 @@ const monthlyBudgetSchema = new mongoose.Schema(
         validator: Number.isInteger,
         message: 'amountPaise must be an integer minor unit (no fractions)',
       },
-    },
-    // Future user identifier placeholder when multi-user authentication is introduced
-    userId: {
-      type: String,
-      default: null,
-      index: true,
     },
     createdAt: {
       type: Date,
@@ -57,8 +57,8 @@ const monthlyBudgetSchema = new mongoose.Schema(
   }
 );
 
-// Enforce single budget per month
-monthlyBudgetSchema.index({ month: 1 }, { unique: true });
+// Enforce single budget per month per user
+monthlyBudgetSchema.index({ userId: 1, month: 1 }, { unique: true });
 
 export const MonthlyBudget =
   mongoose.models.MonthlyBudget || mongoose.model('MonthlyBudget', monthlyBudgetSchema);

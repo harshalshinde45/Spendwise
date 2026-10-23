@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import authRoutes from './routes/authRoutes.js';
 import expenseRoutes from './routes/expenseRoutes.js';
 import budgetRoutes from './routes/budgetRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
@@ -67,6 +68,7 @@ export function createApp() {
 
   // API Routes
   app.use('/api', healthRoutes);
+  app.use('/api/auth', authRoutes);
   app.use('/api/expenses', expenseRoutes);
   app.use('/api/budgets', budgetRoutes);
   app.use('/api/analytics', analyticsRoutes);

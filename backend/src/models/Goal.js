@@ -3,6 +3,12 @@ import { MAX_AMOUNT_PAISE } from '../utils/validation.js';
 
 const goalSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'userId is required'],
+      index: true,
+    },
     name: {
       type: String,
       required: [true, 'Goal name is required'],
@@ -73,6 +79,6 @@ const goalSchema = new mongoose.Schema(
   }
 );
 
-goalSchema.index({ createdAt: -1 });
+goalSchema.index({ userId: 1, createdAt: -1 });
 
 export const Goal = mongoose.models.Goal || mongoose.model('Goal', goalSchema);

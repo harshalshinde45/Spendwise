@@ -5,10 +5,13 @@ import {
   setBudgetForMonth,
 } from '../controllers/budgetController.js';
 import { requireDatabase } from '../config/database.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
+// Apply database connection check and authentication requirement
 router.use(requireDatabase);
+router.use(requireAuth);
 
 router.get('/', getAllBudgets);
 router.get('/:month', getBudgetByMonth);
