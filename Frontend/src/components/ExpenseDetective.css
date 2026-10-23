@@ -1,0 +1,189 @@
+/* Expense Detective Card */
+.expense-detective-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.detective-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.detective-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.detective-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-accent-subtle);
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.detective-label-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detective-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.detective-tag {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detective-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.detective-count-badge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--color-border-subtle);
+}
+
+/* Insights List */
+.detective-insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.detective-insight-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--bg-surface-subtle);
+  transition: all var(--transition-fast);
+}
+
+.detective-insight-item.severity-warning {
+  border-color: var(--status-warning-border);
+  background-color: var(--status-warning-bg);
+}
+
+.detective-insight-item.severity-warning .insight-observation {
+  color: var(--text-primary);
+}
+
+.insight-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.insight-type-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.insight-icon {
+  color: var(--accent-primary);
+  display: inline-flex;
+}
+
+.dismiss-insight-btn {
+  color: var(--text-muted);
+  padding: 2px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dismiss-insight-btn:hover {
+  color: var(--text-primary);
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.insight-observation {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.insight-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 4px;
+  border-top: 1px dashed var(--color-border);
+}
+
+.insight-explanation {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Empty State */
+.detective-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+}
+
+.detective-empty-icon {
+  color: var(--status-success);
+}
+
+.detective-empty-text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.detective-empty-subtext {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  max-width: 380px;
+  line-height: 1.45;
+}

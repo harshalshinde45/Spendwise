@@ -1,0 +1,126 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-page-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.header-page-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.month-selector-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xs);
+  height: 40px;
+}
+
+.month-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 100%;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.month-nav-btn:hover {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-primary);
+}
+
+.month-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-left: 1px solid var(--color-border-subtle);
+  border-right: 1px solid var(--color-border-subtle);
+  height: 100%;
+}
+
+.month-cal-icon {
+  color: var(--accent-primary);
+}
+
+.month-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.current-month-btn {
+  height: 40px;
+  padding: 0 12px;
+}
+
+.add-expense-btn {
+  box-shadow: 0 2px 6px rgba(45, 90, 64, 0.25);
+  font-weight: var(--font-weight-semibold);
+}
+
+.add-expense-btn:hover {
+  box-shadow: 0 4px 10px rgba(45, 90, 64, 0.35);
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+  .month-selector-group {
+    width: 100%;
+  }
+  .month-nav {
+    flex: 1;
+    justify-content: space-between;
+  }
+  .add-expense-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

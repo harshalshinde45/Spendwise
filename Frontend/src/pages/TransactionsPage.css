@@ -1,0 +1,82 @@
+.transactions-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.transactions-control-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+}
+
+.scope-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.scope-tabs {
+  display: flex;
+  background-color: var(--bg-surface-subtle);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  border: 1px solid var(--color-border);
+}
+
+.scope-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-xs);
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+}
+
+.scope-tab.active {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-xs);
+}
+
+.transactions-summary-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+}
+
+.summary-count {
+  color: var(--text-secondary);
+}
+
+.summary-bullet {
+  color: var(--text-muted);
+}
+
+.summary-total {
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-mono);
+  color: var(--text-primary);
+}
+
+.transactions-results-section {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 640px) {
+  .scope-toggle-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

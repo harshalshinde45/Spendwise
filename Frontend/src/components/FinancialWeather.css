@@ -1,0 +1,191 @@
+/* Financial Weather Card */
+.financial-weather-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 14px 18px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--bg-surface);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-normal);
+  margin-bottom: var(--space-5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* State Accents */
+.weather-state-sunny {
+  border-color: var(--weather-sunny-border);
+  background: linear-gradient(90deg, var(--weather-sunny-bg) 0%, var(--bg-surface) 180px);
+}
+
+.weather-state-cloudy {
+  border-color: var(--weather-cloudy-border);
+  background: linear-gradient(90deg, var(--weather-cloudy-bg) 0%, var(--bg-surface) 180px);
+}
+
+.weather-state-rainy {
+  border-color: var(--weather-rainy-border);
+  background: linear-gradient(90deg, var(--weather-rainy-bg) 0%, var(--bg-surface) 180px);
+}
+
+.weather-state-storm {
+  border-color: var(--weather-storm-border);
+  background: linear-gradient(90deg, var(--weather-storm-bg) 0%, var(--bg-surface) 180px);
+}
+
+.weather-state-neutral {
+  border-color: var(--color-border);
+}
+
+/* Icon Emblem */
+.weather-visual-col {
+  flex-shrink: 0;
+}
+
+.weather-icon-emblem {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.emblem-sunny {
+  background-color: var(--weather-sunny-bg);
+  color: var(--weather-sunny-text);
+  border: 1px solid var(--weather-sunny-border);
+}
+
+.emblem-cloudy {
+  background-color: var(--weather-cloudy-bg);
+  color: var(--weather-cloudy-text);
+  border: 1px solid var(--weather-cloudy-border);
+}
+
+.emblem-rainy {
+  background-color: var(--weather-rainy-bg);
+  color: var(--weather-rainy-text);
+  border: 1px solid var(--weather-rainy-border);
+}
+
+.emblem-storm {
+  background-color: var(--weather-storm-bg);
+  color: var(--weather-storm-text);
+  border: 1px solid var(--weather-storm-border);
+}
+
+.emblem-neutral {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--color-border);
+}
+
+/* Restrained animations */
+.sunny-spin {
+  animation: rotateSun 16s linear infinite;
+}
+
+@keyframes rotateSun {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sunny-spin {
+    animation: none;
+  }
+}
+
+/* Text Section */
+.weather-text-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 220px;
+}
+
+.weather-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weather-status-tag {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+}
+
+.weather-badge {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-sunny {
+  background-color: var(--weather-sunny-bg);
+  color: var(--weather-sunny-text);
+  border: 1px solid var(--weather-sunny-border);
+}
+
+.badge-cloudy {
+  background-color: var(--weather-cloudy-bg);
+  color: var(--weather-cloudy-text);
+  border: 1px solid var(--weather-cloudy-border);
+}
+
+.badge-rainy {
+  background-color: var(--weather-rainy-bg);
+  color: var(--weather-rainy-text);
+  border: 1px solid var(--weather-rainy-border);
+}
+
+.badge-storm {
+  background-color: var(--weather-storm-bg);
+  color: var(--weather-storm-text);
+  border: 1px solid var(--weather-storm-border);
+}
+
+.badge-neutral {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+}
+
+.weather-headline {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.weather-description {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.weather-action-col {
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .financial-weather-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

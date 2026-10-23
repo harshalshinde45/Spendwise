@@ -1,0 +1,216 @@
+/* Dashboard Page - 5-Row Clean Layout */
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  animation: fadeIn var(--transition-normal);
+}
+
+/* Row 1: Header */
+.dashboard-row-1 {
+  width: 100%;
+}
+
+.dashboard-row-1 .page-header {
+  margin-bottom: 0;
+}
+
+/* Row 2: 3-Metric Primary Command Center Grid */
+.dashboard-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+/* Row 3: Main Budget Overview & Smart Alert */
+.dashboard-row-3 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+/* Row 4: Visual Analytics Charts */
+.dashboard-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  align-items: stretch;
+}
+
+.dashboard-charts-grid .chart-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-cat-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Row 5: Recent Transactions & Spending Insights */
+.dashboard-row-5-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.recent-transactions-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.recent-actions-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.recent-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.recent-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.view-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Insights Column */
+.dashboard-insights-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.top-category-insight-card {
+  padding: var(--space-4);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.top-cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.top-cat-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.top-cat-flame-icon {
+  color: var(--accent-primary);
+}
+
+.top-cat-share {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  background-color: var(--bg-surface-subtle);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.top-cat-body {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.top-cat-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.top-cat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-cat-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.top-cat-amount {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-mono);
+  color: var(--text-primary);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1080px) {
+  .dashboard-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard-charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-row-5-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .recent-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .recent-actions-row {
+    justify-content: flex-end;
+  }
+}

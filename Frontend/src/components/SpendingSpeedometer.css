@@ -1,0 +1,228 @@
+/* Spending Speedometer Card */
+.speedometer-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.speedometer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.speedometer-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.speedometer-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-accent-subtle);
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.speedometer-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.speedometer-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.speed-badge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+}
+
+.badge-cruising {
+  background-color: var(--status-success-bg);
+  color: var(--status-success);
+  border: 1px solid var(--status-success-border);
+}
+
+.badge-balanced {
+  background-color: var(--bg-accent-subtle);
+  color: var(--accent-primary);
+  border: 1px solid var(--color-border);
+}
+
+.badge-accelerated {
+  background-color: var(--status-warning-bg);
+  color: var(--status-warning);
+  border: 1px solid var(--status-warning-border);
+}
+
+.badge-redline {
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger);
+  border: 1px solid var(--status-danger-border);
+}
+
+/* Speedometer Body */
+.speedometer-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.speedometer-comparison-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--bg-surface-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.speed-track-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.speed-track-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-xs);
+}
+
+.track-label {
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.track-value {
+  color: var(--text-primary);
+}
+
+.speed-track-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.speed-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+.fill-budget.speed-cruising {
+  background-color: var(--status-success);
+}
+
+.fill-budget.speed-balanced {
+  background-color: var(--accent-primary);
+}
+
+.fill-budget.speed-accelerated {
+  background-color: var(--status-warning);
+}
+
+.fill-budget.speed-redline {
+  background-color: var(--status-danger);
+}
+
+.fill-calendar {
+  background-color: var(--text-muted);
+}
+
+/* Insight Box */
+.speedometer-insight-box {
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent-primary);
+  background-color: var(--bg-surface-subtle);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.speedometer-insight-text {
+  font-size: var(--font-size-xs);
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Stats Grid */
+.speedometer-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.speed-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: var(--space-3);
+  background-color: var(--bg-surface-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.speed-stat-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.speed-stat-val {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+.speed-stat-helper {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Unset State */
+.speedometer-unset-body {
+  padding: var(--space-4);
+  background-color: var(--bg-surface-subtle);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+@media (max-width: 600px) {
+  .speedometer-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
