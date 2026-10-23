@@ -26,27 +26,34 @@
 }
 
 .amount-input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
 .currency-prefix {
-  position: absolute;
-  left: 14px;
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-secondary);
-  pointer-events: none;
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-family: var(--font-family-display) !important;
+  font-size: var(--font-size-lg) !important;
+  font-weight: 700 !important;
+  color: var(--text-secondary) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 5 !important;
+  line-height: 1 !important;
 }
 
 .amount-input {
-  font-family: var(--font-family-display);
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1, "cv05" 1;
-  padding-left: 32px;
-  font-size: var(--font-size-lg);
-  font-weight: 700; /* Manrope 700 monetary input */
+  font-family: var(--font-family-display) !important;
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" 1, "cv05" 1 !important;
+  padding-left: 38px !important;
+  font-size: var(--font-size-lg) !important;
+  font-weight: 700 !important; /* Manrope 700 monetary input */
 }
 
 .modal-actions {

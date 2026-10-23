@@ -276,6 +276,56 @@ a:hover {
   border-radius: var(--radius-sm);
   color: var(--text-primary);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Universal Amount & Currency Prefix System (Zero Overlap Guaranteed)
+   ========================================================================== */
+.amount-input-wrapper,
+.amount-input-wrap,
+.currency-input-wrapper,
+.input-wrap {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.currency-prefix,
+.currency-mark {
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  font-family: var(--font-family-display, 'Manrope', sans-serif) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--text-secondary, #77766C) !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 5 !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Ensure any input with a currency prefix has generous left padding */
+.amount-input-wrapper .form-input,
+.amount-input-wrapper input,
+.amount-input-wrap .form-input,
+.amount-input-wrap input,
+.currency-input-wrapper input,
+.input-wrap .form-input,
+.input-wrap input,
+.form-input.amount-input,
+.form-input.amount-field,
+.form-input.cat-input,
+.amount-input,
+.amount-field,
+.cat-input {
+  padding-left: 38px !important; /* Ample 24px clearance after currency mark */
 }
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {

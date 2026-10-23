@@ -293,35 +293,41 @@ export function SavingsGoalsPage() {
               <div className="form-grid-2">
                 <div className="form-group">
                   <label className="form-label" htmlFor="goal-target-input">
-                    Target Amount (₹) *
+                    Target Amount *
                   </label>
-                  <input
-                    id="goal-target-input"
-                    type="number"
-                    min="1"
-                    step="any"
-                    required
-                    className="form-input font-mono"
-                    placeholder="50000"
-                    value={targetRupees}
-                    onChange={(e) => setTargetRupees(e.target.value)}
-                  />
+                  <div className="amount-input-wrapper">
+                    <span className="currency-prefix" aria-hidden="true">₹</span>
+                    <input
+                      id="goal-target-input"
+                      type="number"
+                      min="1"
+                      step="any"
+                      required
+                      className="form-input amount-input font-mono"
+                      placeholder="50000"
+                      value={targetRupees}
+                      onChange={(e) => setTargetRupees(e.target.value)}
+                    />
+                  </div>
                 </div>
 
                 <div className="form-group">
                   <label className="form-label" htmlFor="goal-saved-input">
-                    Current Amount Saved (₹)
+                    Current Amount Saved
                   </label>
-                  <input
-                    id="goal-saved-input"
-                    type="number"
-                    min="0"
-                    step="any"
-                    className="form-input font-mono"
-                    placeholder="0"
-                    value={savedRupees}
-                    onChange={(e) => setSavedRupees(e.target.value)}
-                  />
+                  <div className="amount-input-wrapper">
+                    <span className="currency-prefix" aria-hidden="true">₹</span>
+                    <input
+                      id="goal-saved-input"
+                      type="number"
+                      min="0"
+                      step="any"
+                      className="form-input amount-input font-mono"
+                      placeholder="0"
+                      value={savedRupees}
+                      onChange={(e) => setSavedRupees(e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -408,20 +414,23 @@ export function SavingsGoalsPage() {
             <form onSubmit={handleSaveContribution} className="goal-form">
               <div className="form-group">
                 <label className="form-label" htmlFor="contrib-amount">
-                  Contribution Amount (₹) *
+                  Contribution Amount *
                 </label>
-                <input
-                  id="contrib-amount"
-                  type="number"
-                  min="1"
-                  step="any"
-                  required
-                  autoFocus
-                  className="form-input font-mono font-bold"
-                  placeholder="1000"
-                  value={contributionRupees}
-                  onChange={(e) => setContributionRupees(e.target.value)}
-                />
+                <div className="amount-input-wrapper">
+                  <span className="currency-prefix" aria-hidden="true">₹</span>
+                  <input
+                    id="contrib-amount"
+                    type="number"
+                    min="1"
+                    step="any"
+                    required
+                    autoFocus
+                    className="form-input amount-input font-mono font-bold"
+                    placeholder="1000"
+                    value={contributionRupees}
+                    onChange={(e) => setContributionRupees(e.target.value)}
+                  />
+                </div>
               </div>
 
               <div className="modal-footer">
