@@ -12,10 +12,39 @@ export function createApp() {
   const app = express();
 
   // CORS Configuration
-  const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+  const clientOriginEnv = process.env.CLIENT_ORIGIN || '';
+  const configuredOrigins = clientOriginEnv
+    .split(',')
+    .map((o) => o.trim().replace(/\/$/, ''))
+    .filter(Boolean);
+
+  const defaultOrigins = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:3000',
+    'https://spendwise-nu-gilt.vercel.app',
+  ];
+
   app.use(
     cors({
-      origin: [clientOrigin, 'http://localhost:5173', 'http://127.0.0.1:5173'],
+      origin: (origin, callback) => {
+        // Allow requests with no origin (e.g. mobile apps, curl, Postman, server-to-server)
+        if (!origin) return callback(null, true);
+
+        const cleanOrigin = origin.replace(/\/$/, '');
+
+        if (
+          defaultOrigins.includes(cleanOrigin) ||
+          configuredOrigins.includes(cleanOrigin) ||
+          cleanOrigin.endsWith('.vercel.app') ||
+          cleanOrigin.endsWith('.onrender.com') ||
+          clientOriginEnv === '*'
+        ) {
+          return callback(null, true);
+        }
+
+        return callback(null, true);
+      },
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
