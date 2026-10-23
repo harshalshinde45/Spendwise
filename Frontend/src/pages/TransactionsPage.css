@@ -64,8 +64,10 @@
 }
 
 .summary-total {
-  font-weight: var(--font-weight-bold);
-  font-family: var(--font-family-mono);
+  font-family: var(--font-family-display);
+  font-weight: 700; /* Manrope 700 with tabular numerals */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   color: var(--text-primary);
 }
 

@@ -70,9 +70,11 @@
 }
 
 .tooltip-amount {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-bold);
-  font-family: var(--font-family-mono);
+  font-weight: 700; /* Manrope 700 tabular */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
   color: var(--text-primary);
 }
 
@@ -122,8 +124,10 @@
 }
 
 .legend-amount {
-  font-weight: var(--font-weight-semibold);
-  font-family: var(--font-family-mono);
+  font-family: var(--font-family-display);
+  font-weight: 700; /* Manrope 700 tabular */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
   color: var(--text-primary);
 }
 

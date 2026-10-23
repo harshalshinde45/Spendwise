@@ -30,13 +30,16 @@
 }
 
 .budget-card-title {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
+  font-weight: 600; /* Manrope 600 card heading */
   color: var(--text-primary);
 }
 
 .budget-card-subtitle {
+  font-family: var(--font-family-body);
   font-size: var(--font-size-xs);
+  font-weight: 400; /* DM Sans 400 secondary label */
   color: var(--text-muted);
 }
 
@@ -73,9 +76,10 @@
 }
 
 .budget-unset-stats .stat-value {
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
   color: var(--text-primary);
-  font-family: var(--font-family-mono);
 }
 
 /* Active State */
@@ -93,15 +97,18 @@
 }
 
 .figure-label {
+  font-family: var(--font-family-body);
   font-size: var(--font-size-xs);
   color: var(--text-muted);
-  font-weight: var(--font-weight-medium);
+  font-weight: 400; /* DM Sans 400 */
 }
 
 .figure-value {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  font-family: var(--font-family-mono);
+  font-weight: 700; /* Manrope 700 with tabular numerals */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   color: var(--text-primary);
 }
 

@@ -177,15 +177,18 @@
 }
 
 .top-cat-name {
+  font-family: var(--font-family-body);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  font-weight: 500; /* DM Sans 500 */
   color: var(--text-primary);
 }
 
 .top-cat-amount {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  font-family: var(--font-family-mono);
+  font-weight: 700; /* Manrope 700 with tabular numerals */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   color: var(--text-primary);
 }
 

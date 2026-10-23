@@ -10,8 +10,9 @@
 }
 
 .modal-title {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
+  font-weight: 600; /* Manrope 600 modal title */
   color: var(--text-primary);
 }
 
@@ -40,10 +41,12 @@
 }
 
 .amount-input {
+  font-family: var(--font-family-display);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   padding-left: 32px;
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-mono);
+  font-weight: 700; /* Manrope 700 monetary input */
 }
 
 .modal-actions {

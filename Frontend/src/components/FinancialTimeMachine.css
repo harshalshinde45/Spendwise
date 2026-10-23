@@ -190,14 +190,17 @@
 }
 
 .impact-stat .stat-label {
+  font-family: var(--font-family-body);
   font-size: 11px;
   color: var(--text-muted);
-  font-family: var(--font-family-base);
 }
 
 .impact-stat .stat-val {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
+  font-weight: 700; /* Manrope 700 monetary value with tabular numerals */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   color: var(--accent-primary);
 }
 

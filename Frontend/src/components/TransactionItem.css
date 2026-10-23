@@ -52,8 +52,9 @@
 }
 
 .trans-title {
+  font-family: var(--font-family-body);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-weight: 500; /* DM Sans 500 */
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -70,15 +71,17 @@
 }
 
 .trans-meta-line {
+  font-family: var(--font-family-body);
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: var(--font-size-xs);
+  font-weight: 400; /* DM Sans 400 */
   color: var(--text-secondary);
 }
 
 .trans-category-pill {
-  font-weight: var(--font-weight-medium);
+  font-weight: 500; /* DM Sans 500 */
 }
 
 .meta-separator {
@@ -86,7 +89,9 @@
 }
 
 .trans-date {
-  color: var(--text-muted);
+  font-family: var(--font-family-body);
+  font-weight: 400; /* DM Sans 400 with secondary contrast */
+  color: var(--text-secondary);
 }
 
 .trans-right {
@@ -97,9 +102,11 @@
 }
 
 .trans-amount {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
-  font-family: var(--font-family-mono);
+  font-weight: 700; /* Manrope 700 monetary total with tabular numerals */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   color: var(--text-primary);
   text-align: right;
   white-space: nowrap;

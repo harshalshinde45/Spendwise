@@ -48,8 +48,11 @@
   --status-info-bg: #EBF0E9;
   --status-info-border: #C8D6C4;
 
-  /* Typography */
-  --font-family-base: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Typography System */
+  --font-family-display: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-body: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-base: var(--font-family-body);
+  --font-family-heading: var(--font-family-display);
   --font-family-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --font-size-xs: 0.75rem;    /* 12px */
@@ -64,6 +67,9 @@
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --font-numeric-tabular: tabular-nums;
 
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;

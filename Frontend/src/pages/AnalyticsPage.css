@@ -42,9 +42,11 @@
 }
 
 .insight-value {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  font-family: var(--font-family-mono);
+  font-weight: 700; /* Manrope 700 monetary total */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   color: var(--text-primary);
 }
 
@@ -142,7 +144,9 @@
 }
 
 .font-mono {
-  font-family: var(--font-family-mono);
+  font-family: var(--font-family-display);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
 }
 
 .font-bold {

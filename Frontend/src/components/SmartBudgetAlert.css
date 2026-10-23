@@ -173,9 +173,11 @@
 }
 
 .alert-metric-item .metric-value {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
-  font-family: var(--font-family-mono);
+  font-weight: 700; /* Manrope 700 tabular */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
   color: var(--text-primary);
 }
 
@@ -258,7 +260,9 @@
 
 .suggestion-badge strong {
   color: var(--accent-primary);
-  font-family: var(--font-family-mono);
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .suggestion-helper {

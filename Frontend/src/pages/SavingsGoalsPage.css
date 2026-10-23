@@ -117,8 +117,9 @@
 }
 
 .goal-name {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
+  font-weight: 600; /* Manrope 600 card heading */
   color: var(--text-primary);
   margin: 0;
 }
@@ -164,13 +165,19 @@
 }
 
 .saved-amount {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
+  font-weight: 700; /* Manrope 700 monetary value with tabular numerals */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv05" 1;
   color: var(--text-primary);
 }
 
 .target-amount {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-xs);
+  font-weight: 600; /* Manrope 600 secondary monetary target */
+  font-variant-numeric: tabular-nums;
   color: var(--text-muted);
 }
 
