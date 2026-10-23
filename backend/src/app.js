@@ -54,6 +54,17 @@ export function createApp() {
   // Request parsing
   app.use(express.json({ limit: '5mb' }));
 
+  // Root Welcome Endpoint
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      status: 'ok',
+      service: 'SpendWise Backend API',
+      message: 'SpendWise REST API is running smoothly. Use /api/health for system status.',
+      health: '/api/health',
+      version: '1.0.0',
+    });
+  });
+
   // API Routes
   app.use('/api', healthRoutes);
   app.use('/api/expenses', expenseRoutes);
