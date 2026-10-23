@@ -2,11 +2,15 @@
  * Central HTTP client for SpendWise API communications.
  */
 
-let rawBase = (import.meta.env.VITE_API_BASE_URL || '/api').trim().replace(/\/$/, '');
+const defaultBase = import.meta.env.PROD
+  ? 'https://spendwise-uope.onrender.com/api'
+  : '/api';
+
+let rawBase = (import.meta.env.VITE_API_BASE_URL || defaultBase).trim().replace(/\/$/, '');
 if (rawBase.startsWith('http') && !rawBase.endsWith('/api')) {
   rawBase = `${rawBase}/api`;
 }
-const API_BASE_URL = rawBase;
+export const API_BASE_URL = rawBase;
 
 export class ApiError extends Error {
   constructor(message, status, data) {

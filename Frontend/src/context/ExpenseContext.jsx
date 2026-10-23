@@ -143,7 +143,7 @@ export function ExpenseProvider({ children }) {
   }, []);
 
   // --- Fetch Data from Backend ---
-  const loadBackendData = useCallback(async () => {
+  const loadBackendData = useCallback(async (retryCount = 0) => {
     setIsLoading(true);
     try {
       // 1. Check Backend Health & Database Connectivity
@@ -170,6 +170,7 @@ export function ExpenseProvider({ children }) {
 
         // 3. Check for any unmigrated local storage records
         checkLocalStorageMigration();
+        setIsLoading(false);
       } else {
         setDbState({
           isOperational: false,
@@ -179,18 +180,27 @@ export function ExpenseProvider({ children }) {
         setExpenses([]);
         setBudgets({});
         setGoals([]);
+        setIsLoading(false);
       }
     } catch (err) {
+      // Graceful cold-start retry for free-tier hosting (Render spins down when idle)
+      if (retryCount < 2) {
+        console.warn(`[SpendWise API] Server warming up, auto-retrying in 3s (attempt ${retryCount + 1} of 2)...`);
+        setTimeout(() => {
+          loadBackendData(retryCount + 1);
+        }, 3000);
+        return;
+      }
+
       console.error('[SpendWise API Error]:', err.message);
       setDbState({
         isOperational: false,
         status: 'disconnected',
-        message: err.message || 'Unable to connect to backend server. Run "npm start" in backend/.',
+        message: err.message || 'Unable to connect to backend server. Verify your backend service is running.',
       });
       setExpenses([]);
       setBudgets({});
       setGoals([]);
-    } finally {
       setIsLoading(false);
     }
   }, [checkLocalStorageMigration]);
