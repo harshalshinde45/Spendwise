@@ -238,7 +238,7 @@ export function AuthPage({ initialMode = 'login' }) {
                   <span className="privacy-heading">Zero Admin Hierarchy</span>
                   <span className="privacy-desc">
                     No super-admins or cross-user access. Your transactions, budgets, and savings
-                    goals are isolated in a dedicated MongoDB partition.
+                    goals are isolated in a private, encrypted account vault.
                   </span>
                 </div>
               </div>
@@ -248,7 +248,7 @@ export function AuthPage({ initialMode = 'login' }) {
           {/* Footer Philosophy */}
           <div className="showcase-footer-note">
             <span className="live-dot" aria-hidden="true" />
-            <span>End-to-end multi-tenant database isolation. Private & secure.</span>
+            <span>End-to-end multi-tenant account isolation. Private & secure.</span>
           </div>
         </aside>
 

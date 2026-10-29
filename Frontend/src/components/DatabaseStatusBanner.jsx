@@ -21,10 +21,9 @@ export function DatabaseStatusBanner() {
           <div className="alert-content-left">
             <AlertTriangle size={18} className="alert-icon" aria-hidden="true" />
             <div className="alert-text-block">
-              <strong>MongoDB Database Disconnected</strong>
+              <strong>Cloud Service Temporarily Offline</strong>
               <p>
-                The backend is running, but cannot connect to MongoDB. To persist and load expenses, set a valid{' '}
-                <code>MONGODB_URI</code> in <code>backend/.env</code> and restart the server.
+                Unable to reach cloud synchronization. Please check your network connection or verify your server status.
               </p>
             </div>
           </div>
@@ -47,7 +46,7 @@ export function DatabaseStatusBanner() {
             <div className="alert-text-block">
               <strong>Local Storage Records Detected</strong>
               <p>
-                Found {localDataMigration.expensesCount} expenses and {localDataMigration.budgetsCount} budgets in your browser storage. Would you like to migrate them to your MongoDB database?
+                Found {localDataMigration.expensesCount} expenses and {localDataMigration.budgetsCount} budgets in your browser storage. Would you like to sync them to your cloud account?
               </p>
             </div>
           </div>
@@ -59,7 +58,7 @@ export function DatabaseStatusBanner() {
               disabled={isMigrating}
             >
               <UploadCloud size={14} />
-              <span>{isMigrating ? 'Migrating...' : 'Migrate to MongoDB'}</span>
+              <span>{isMigrating ? 'Syncing...' : 'Sync to Cloud'}</span>
             </button>
             <button
               type="button"

@@ -226,7 +226,7 @@ export function FinancialTimeMachine() {
       <div className="simulator-notice">
         <Info size={14} aria-hidden="true" />
         <span>
-          Sandbox simulation only. No real transaction is generated, and your MongoDB database records remain unchanged.
+          Sandbox simulation only. No real transaction is generated, and your stored financial records remain unchanged.
         </span>
       </div>
     </div>

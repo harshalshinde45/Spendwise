@@ -313,11 +313,11 @@ export function SettingsPage() {
               Privacy & Data
             </h2>
             <p className="privacy-explanation-text">
-              Your expenses and budgets are stored in your configured MongoDB database. SpendWise does not require an account or track your financial activity.
+              Your expenses and budgets are encrypted and stored in your private cloud account. SpendWise protects your personal financial activity with authenticated data isolation.
             </p>
           </div>
 
-          {/* Database Connectivity Status */}
+          {/* Cloud Storage Connectivity Status */}
           <div className="db-connection-status-row">
             <div className="status-indicator-group">
               <Database
@@ -325,9 +325,9 @@ export function SettingsPage() {
                 color={dbState.isOperational ? 'var(--status-success)' : 'var(--status-warning)'}
               />
               <div>
-                <span className="status-label">Database Storage Status</span>
+                <span className="status-label">Cloud Sync Status</span>
                 <span className={`status-badge-text ${dbState.isOperational ? 'connected' : 'disconnected'}`}>
-                  {dbState.isOperational ? 'Connected to MongoDB' : 'Disconnected (Check backend/.env)'}
+                  {dbState.isOperational ? 'Connected & Synced' : 'Offline / Disconnected'}
                 </span>
               </div>
             </div>
@@ -351,7 +351,7 @@ export function SettingsPage() {
                 onClick={migrateLocalData}
                 disabled={isMigrating || !dbState.isOperational}
               >
-                {isMigrating ? 'Migrating...' : 'Migrate to MongoDB'}
+                {isMigrating ? 'Migrating...' : 'Sync to Cloud'}
               </button>
             </div>
           )}
@@ -360,7 +360,7 @@ export function SettingsPage() {
             <div className="danger-action-info">
               <span className="danger-action-title">Clear All Expense Data</span>
               <span className="danger-action-desc">
-                Permanently removes all saved expenses and monthly budgets from your MongoDB database.
+                Permanently removes all saved expenses and monthly budgets from your cloud storage.
               </span>
             </div>
             <button
@@ -385,10 +385,10 @@ export function SettingsPage() {
               <span className="about-version">Version 1.0 (Full-Stack)</span>
             </div>
             <p className="about-desc">
-              A full-stack personal expense tracker built with React, Node.js, Express, and MongoDB.
+              A modern personal expense tracker engineered for privacy, clean financial insights, and real-time budgeting.
             </p>
             <p className="about-note">
-              Financial records are managed through a dedicated REST API with Mongoose schemas and integer minor units (paise).
+              Financial records are protected with authenticated API endpoints and minor unit currency precision.
             </p>
           </div>
         </section>

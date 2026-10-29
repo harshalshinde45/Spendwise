@@ -155,10 +155,10 @@ export function ExpenseProvider({ children }) {
         setDbState({
           isOperational: true,
           status: 'connected',
-          message: 'Connected to MongoDB',
+          message: 'Connected & Synced',
         });
 
-        // 2. Fetch Expenses, Budgets & Savings Goals from MongoDB
+        // 2. Fetch Expenses, Budgets & Savings Goals
         const [loadedExpenses, loadedBudgets, loadedGoals] = await Promise.all([
           expenseService.getExpenses(),
           budgetService.getAllBudgets(),
@@ -176,7 +176,7 @@ export function ExpenseProvider({ children }) {
         setDbState({
           isOperational: false,
           status: 'disconnected',
-          message: 'MongoDB is disconnected. Please configure MONGODB_URI in backend/.env to persist expenses.',
+          message: 'Cloud service is disconnected. Please check your backend connection to persist expenses.',
         });
         setExpenses([]);
         setBudgets({});
@@ -235,7 +235,7 @@ export function ExpenseProvider({ children }) {
     async ({ amountPaise, category, date, description }) => {
       if (!dbState.isOperational) {
         showToast(
-          'Cannot save expense: MongoDB database is disconnected. Please configure MONGODB_URI in backend/.env.',
+          'Cannot save expense: Cloud service is disconnected.',
           'error',
           5000
         );
@@ -266,7 +266,7 @@ export function ExpenseProvider({ children }) {
     async (id, updates) => {
       if (!dbState.isOperational) {
         showToast(
-          'Cannot update expense: MongoDB database is disconnected.',
+          'Cannot update expense: Cloud service is disconnected.',
           'error',
           5000
         );
@@ -298,7 +298,7 @@ export function ExpenseProvider({ children }) {
     async (id) => {
       if (!dbState.isOperational) {
         showToast(
-          'Cannot delete expense: MongoDB database is disconnected.',
+          'Cannot delete expense: Cloud service is disconnected.',
           'error',
           5000
         );
@@ -320,7 +320,7 @@ export function ExpenseProvider({ children }) {
     async (monthKey, amountPaise) => {
       if (!dbState.isOperational) {
         showToast(
-          'Cannot save budget: MongoDB database is disconnected.',
+          'Cannot save budget: Cloud service is disconnected.',
           'error',
           5000
         );
@@ -353,7 +353,7 @@ export function ExpenseProvider({ children }) {
 
   const clearAllData = useCallback(async () => {
     if (!dbState.isOperational) {
-      showToast('Cannot clear database: MongoDB is not connected.', 'error');
+      showToast('Cannot clear data: Cloud service is disconnected.', 'error');
       return;
     }
 
@@ -362,7 +362,7 @@ export function ExpenseProvider({ children }) {
       setExpenses([]);
       setBudgets({});
       setGoals([]);
-      showToast('All expense and budget records have been permanently cleared from MongoDB.', 'info');
+      showToast('All expense and budget records have been permanently cleared.', 'info');
     } catch (err) {
       showToast(err.message || 'Failed to clear data.', 'error');
     }
@@ -372,7 +372,7 @@ export function ExpenseProvider({ children }) {
   const addGoal = useCallback(
     async (goalData) => {
       if (!dbState.isOperational) {
-        showToast('Cannot save goal: MongoDB is disconnected.', 'error');
+        showToast('Cannot save goal: Cloud service is disconnected.', 'error');
         return null;
       }
       try {
@@ -391,7 +391,7 @@ export function ExpenseProvider({ children }) {
   const updateGoal = useCallback(
     async (id, updates) => {
       if (!dbState.isOperational) {
-        showToast('Cannot update goal: MongoDB is disconnected.', 'error');
+        showToast('Cannot update goal: Cloud service is disconnected.', 'error');
         return null;
       }
       try {
@@ -410,7 +410,7 @@ export function ExpenseProvider({ children }) {
   const deleteGoal = useCallback(
     async (id) => {
       if (!dbState.isOperational) {
-        showToast('Cannot delete goal: MongoDB is disconnected.', 'error');
+        showToast('Cannot delete goal: Cloud service is disconnected.', 'error');
         return;
       }
       try {
@@ -427,7 +427,7 @@ export function ExpenseProvider({ children }) {
   const contributeToGoal = useCallback(
     async (id, amountPaise) => {
       if (!dbState.isOperational) {
-        showToast('Cannot save contribution: MongoDB is disconnected.', 'error');
+        showToast('Cannot save contribution: Cloud service is disconnected.', 'error');
         return null;
       }
       try {
@@ -447,7 +447,7 @@ export function ExpenseProvider({ children }) {
   const migrateLocalData = useCallback(async () => {
     if (!localDataMigration) return;
     if (!dbState.isOperational) {
-      showToast('Cannot migrate data: MongoDB database is disconnected.', 'error');
+      showToast('Cannot sync data: Cloud service is disconnected.', 'error');
       return;
     }
 
@@ -466,12 +466,12 @@ export function ExpenseProvider({ children }) {
       setLocalDataMigration(null);
 
       showToast(
-        `Migration successful: Imported ${res.summary?.expensesImported || 0} expenses and ${res.summary?.budgetsConfigured || 0} budgets.`,
+        `Sync successful: Imported ${res.summary?.expensesImported || 0} expenses and ${res.summary?.budgetsConfigured || 0} budgets.`,
         'success',
         6000
       );
     } catch (err) {
-      showToast(err.message || 'Failed to migrate data to MongoDB.', 'error');
+      showToast(err.message || 'Failed to sync data to the cloud.', 'error');
     } finally {
       setIsMigrating(false);
     }

@@ -14,7 +14,6 @@ import {
   PanelLeftOpen,
   Sun,
   Moon,
-  Database,
   LogOut,
 } from 'lucide-react';
 import './Sidebar.css';
@@ -22,7 +21,7 @@ import './Sidebar.css';
 const COLLAPSED_STORAGE_KEY = 'spendwise:sidebar_collapsed';
 
 export function Sidebar({ activeTab, onTabChange }) {
-  const { openAddModal, theme, setTheme, dbState } = useExpense();
+  const { openAddModal, theme, setTheme } = useExpense();
   const { user, logout } = useAuth();
 
   const userInitials = (user?.name || 'User')
@@ -190,21 +189,9 @@ export function Sidebar({ activeTab, onTabChange }) {
 
       {/* Sidebar Footer Controls */}
       <div className="sidebar-footer">
-        {/* Database indicator */}
-        <div
-          className="db-status-pill"
-          title={dbState.isOperational ? 'MongoDB is connected' : 'Database disconnected'}
-        >
-          <span
-            className={`status-dot ${dbState.isOperational ? 'online' : 'offline'}`}
-            aria-hidden="true"
-          />
-          {!isCollapsed && (
-            <span className="db-status-text">
-              {dbState.isOperational ? 'MongoDB Live' : 'Offline'}
-            </span>
-          )}
-        </div>
+        {!isCollapsed && (
+          <span className="sidebar-version-tag">SpendWise v1.0</span>
+        )}
 
         <div className="sidebar-footer-actions">
           {/* Theme Switcher */}
