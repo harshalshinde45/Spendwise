@@ -144,14 +144,29 @@
 
 @media (max-width: 600px) {
   .transaction-row {
-    padding: 10px 12px;
-    flex-wrap: wrap;
+    padding: 11px 13px;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+  .trans-category-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+  }
+  .trans-title {
+    font-size: 13.5px;
+  }
+  .trans-meta-line {
+    font-size: 11px;
   }
   .trans-right {
-    width: 100%;
-    justify-content: space-between;
-    padding-top: 6px;
-    border-top: 1px dashed var(--color-border-subtle);
-    margin-top: 4px;
+    gap: 8px;
+  }
+  .trans-amount {
+    font-size: 14.5px;
+  }
+  .trans-action-btn {
+    width: 28px;
+    height: 28px;
   }
 }

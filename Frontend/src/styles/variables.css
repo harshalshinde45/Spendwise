@@ -1,52 +1,54 @@
 :root {
-  /* Warm Editorial Design Tokens */
-  --bg-app: #EEEAE0;
-  --bg-surface: #FAF7EF;
+  /* SpendWise Modern Fintech Design System (Orange, Black, White, Light-Grey) */
+  --bg-app: #F8F8F7;
+  --bg-surface: #FFFFFF;
   --bg-surface-elevated: #FFFFFF;
-  --bg-surface-subtle: #F3EFE6;
-  --bg-accent-subtle: #F5EAE6;
-  --bg-accent-hover: #EEDCD6;
+  --bg-surface-subtle: #F1F2F0;
+  --bg-surface-dark: #171816;
+  --bg-accent-subtle: #FFF2EC;
+  --bg-accent-hover: #FFE6D9;
 
-  /* Dedicated Sidebar Tokens (Warm Charcoal-Olive #252B25) */
-  --bg-sidebar: #252B25;
-  --sidebar-text: #EDEBE4;
-  --sidebar-text-secondary: #C3C7BE;
-  --sidebar-text-muted: #8E9288;
-  --sidebar-border: #333A33;
-  --sidebar-hover: rgba(255, 255, 255, 0.06);
-  --sidebar-active: rgba(169, 85, 61, 0.22);
+  /* Dedicated Sidebar Tokens (Black & Charcoal #171816) */
+  --bg-sidebar: #171816;
+  --sidebar-text: #F8F8F7;
+  --sidebar-text-secondary: #9B9D96;
+  --sidebar-text-muted: #6C6E67;
+  --sidebar-border: #242522;
+  --sidebar-hover: rgba(255, 255, 255, 0.08);
+  --sidebar-active: #FF6B2C;
+  --sidebar-active-bg: rgba(255, 107, 44, 0.15);
 
-  --text-primary: #292923;
-  --text-secondary: #77766C;
-  --text-muted: #9B998E;
+  --text-primary: #171816;
+  --text-secondary: #777972;
+  --text-muted: #9B9D96;
   --text-inverse: #FFFFFF;
 
-  /* Primary Action & Accents */
-  --accent-primary: #A9553D;
-  --accent-primary-hover: #93452F;
-  --accent-primary-active: #7E3924;
-  --accent-secondary: #C49A58;
+  /* Primary Action & Accents: Signature Fintech Vibrant Orange */
+  --accent-primary: #FF6B2C;
+  --accent-primary-hover: #EA571D;
+  --accent-primary-active: #D3460F;
+  --accent-secondary: #171816;
 
-  --color-border: #DCD6C9;
-  --color-border-subtle: #E8E3D8;
-  --color-border-focus: #A9553D;
+  --color-border: #E8E9E6;
+  --color-border-subtle: #F0F1EE;
+  --color-border-focus: #FF6B2C;
 
-  /* Status Tokens */
-  --status-success: #72866A;
-  --status-success-bg: #EBF0E9;
-  --status-success-border: #C8D6C4;
+  /* Status Tokens: Restrained Emerald Green & Amber Alert */
+  --status-success: #55B982;
+  --status-success-bg: #EDF8F2;
+  --status-success-border: #C6ECD7;
 
-  --status-warning: #B86B25;
-  --status-warning-bg: #F9EFE3;
-  --status-warning-border: #ECCBA8;
+  --status-warning: #FF9F2E;
+  --status-warning-bg: #FFF7ED;
+  --status-warning-border: #FED7AA;
 
-  --status-danger: #B53F3F;
-  --status-danger-bg: #FAECEC;
-  --status-danger-border: #ECC0C0;
+  --status-danger: #E64848;
+  --status-danger-bg: #FDF2F2;
+  --status-danger-border: #FACDCD;
 
-  --status-info: #72866A;
-  --status-info-bg: #EBF0E9;
-  --status-info-border: #C8D6C4;
+  --status-info: #FF6B2C;
+  --status-info-bg: #FFF2EC;
+  --status-info-border: #FED7AA;
 
   /* Typography System */
   --font-family-display: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -62,6 +64,7 @@
   --font-size-xl: 1.25rem;    /* 20px */
   --font-size-2xl: 1.5rem;    /* 24px */
   --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -71,14 +74,15 @@
 
   --font-numeric-tabular: tabular-nums;
 
-  --line-height-tight: 1.25;
+  --line-height-tight: 1.2;
   --line-height-normal: 1.5;
 
-  /* Radii */
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  /* Modern FinTech Radii */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
   --radius-full: 9999px;
 
   /* Spacing Scale */
@@ -92,11 +96,12 @@
   --space-10: 40px;
   --space-12: 48px;
 
-  /* Shadows - Soft and restrained */
-  --shadow-xs: 0 1px 2px rgba(41, 41, 35, 0.04);
-  --shadow-sm: 0 2px 4px rgba(41, 41, 35, 0.05), 0 1px 2px rgba(41, 41, 35, 0.03);
-  --shadow-md: 0 4px 12px rgba(41, 41, 35, 0.06), 0 2px 4px rgba(41, 41, 35, 0.04);
-  --shadow-lg: 0 12px 28px rgba(41, 41, 35, 0.09), 0 4px 8px rgba(41, 41, 35, 0.04);
+  /* Shadows - Crisp, modern ambient drop shadows */
+  --shadow-xs: 0 1px 2px rgba(23, 24, 22, 0.04);
+  --shadow-sm: 0 2px 6px rgba(23, 24, 22, 0.05), 0 1px 2px rgba(23, 24, 22, 0.03);
+  --shadow-md: 0 6px 16px rgba(23, 24, 22, 0.06), 0 2px 4px rgba(23, 24, 22, 0.03);
+  --shadow-lg: 0 14px 32px rgba(23, 24, 22, 0.08), 0 4px 8px rgba(23, 24, 22, 0.03);
+  --shadow-orange: 0 8px 24px rgba(255, 107, 44, 0.25);
 
   /* Layout dimensions */
   --sidebar-width: 260px;
@@ -109,81 +114,84 @@
   --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Weather Feature Tokens */
-  --weather-sunny-bg: #F8F1DE;
-  --weather-sunny-text: #8E5A1C;
-  --weather-sunny-border: #E8D3A5;
-  --weather-cloudy-bg: #EEEAE0;
-  --weather-cloudy-text: #616259;
-  --weather-cloudy-border: #DCD6C9;
-  --weather-rainy-bg: #EAEFF5;
-  --weather-rainy-text: #2D5880;
-  --weather-rainy-border: #CAD8E6;
-  --weather-storm-bg: #FBECEC;
-  --weather-storm-text: #962828;
-  --weather-storm-border: #ECC3C3;
+  --weather-sunny-bg: #FFF7ED;
+  --weather-sunny-text: #EA580C;
+  --weather-sunny-border: #FED7AA;
+  --weather-cloudy-bg: #F1F2F0;
+  --weather-cloudy-text: #4B5563;
+  --weather-cloudy-border: #E5E7EB;
+  --weather-rainy-bg: #EFF6FF;
+  --weather-rainy-text: #2563EB;
+  --weather-rainy-border: #BFDBFE;
+  --weather-storm-bg: #FDF2F2;
+  --weather-storm-text: #DC2626;
+  --weather-storm-border: #FECACA;
 }
 
 [data-theme="dark"] {
-  /* Color Palette - Warm Dark Charcoal & Calibrated Sage */
-  --bg-app: #181B18;
-  --bg-surface: #202420;
-  --bg-surface-elevated: #282D28;
-  --bg-surface-subtle: #262B26;
-  --bg-accent-subtle: #33231F;
-  --bg-accent-hover: #432E29;
+  /* Color Palette - Deep Charcoal Black with Vibrant Orange & Clean Accents */
+  --bg-app: #111210;
+  --bg-surface: #181917;
+  --bg-surface-elevated: #212320;
+  --bg-surface-subtle: #1C1E1B;
+  --bg-surface-dark: #0A0A09;
+  --bg-accent-subtle: rgba(255, 107, 44, 0.12);
+  --bg-accent-hover: rgba(255, 107, 44, 0.2);
 
-  --bg-sidebar: #131613;
-  --sidebar-text: #EDEBE4;
-  --sidebar-text-secondary: #B5B9AF;
-  --sidebar-text-muted: #797E74;
-  --sidebar-border: #232823;
-  --sidebar-hover: rgba(255, 255, 255, 0.05);
-  --sidebar-active: rgba(199, 111, 86, 0.25);
+  --bg-sidebar: #0D0E0C;
+  --sidebar-text: #F8F8F7;
+  --sidebar-text-secondary: #A0A29A;
+  --sidebar-text-muted: #6B6D66;
+  --sidebar-border: #1E201D;
+  --sidebar-hover: rgba(255, 255, 255, 0.06);
+  --sidebar-active: #FF6B2C;
+  --sidebar-active-bg: rgba(255, 107, 44, 0.2);
 
-  --text-primary: #EDEBE5;
-  --text-secondary: #A8A79E;
-  --text-muted: #7D7C74;
-  --text-inverse: #181B18;
+  --text-primary: #F8F8F7;
+  --text-secondary: #A0A29A;
+  --text-muted: #6B6D66;
+  --text-inverse: #111210;
 
-  --accent-primary: #C76F56;
-  --accent-primary-hover: #D9836B;
-  --accent-primary-active: #E5957F;
-  --accent-secondary: #D4AB6A;
+  --accent-primary: #FF6B2C;
+  --accent-primary-hover: #FF7E45;
+  --accent-primary-active: #EA571D;
+  --accent-secondary: #F8F8F7;
 
-  --color-border: #323831;
-  --color-border-subtle: #272C26;
-  --color-border-focus: #C76F56;
+  --color-border: #262824;
+  --color-border-subtle: #1E201D;
+  --color-border-focus: #FF6B2C;
 
   /* Status Tokens - Balanced for dark surfaces */
-  --status-success: #889F80;
-  --status-success-bg: #1D2A1F;
-  --status-success-border: #2E4231;
+  --status-success: #55B982;
+  --status-success-bg: rgba(85, 185, 130, 0.15);
+  --status-success-border: rgba(85, 185, 130, 0.3);
 
-  --status-warning: #DFA15A;
-  --status-warning-bg: #332516;
-  --status-warning-border: #573E24;
+  --status-warning: #FF9F2E;
+  --status-warning-bg: rgba(255, 159, 46, 0.15);
+  --status-warning-border: rgba(255, 159, 46, 0.3);
 
-  --status-danger: #DF6B6B;
-  --status-danger-bg: #351B1B;
-  --status-danger-border: #5A2C2C;
+  --status-danger: #E64848;
+  --status-danger-bg: rgba(230, 72, 72, 0.15);
+  --status-danger-border: rgba(230, 72, 72, 0.3);
 
-  --status-info: #889F80;
-  --status-info-bg: #1D2A1F;
-  --status-info-border: #2E4231;
+  --status-info: #FF6B2C;
+  --status-info-bg: rgba(255, 107, 44, 0.15);
+  --status-info-border: rgba(255, 107, 44, 0.3);
 
   /* Shadows - Adapted for dark backdrop */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.35);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.65), 0 4px 8px rgba(0, 0, 0, 0.35);
+  --shadow-orange: 0 8px 24px rgba(255, 107, 44, 0.35);
 
   /* Weather Feature Tokens - Dark Mode */
-  --weather-sunny-bg: #2C2314;
-  --weather-sunny-text: #F3CA74;
-  --weather-sunny-border: #4D3D22;
-  --weather-cloudy-bg: #1F2220;
-  --weather-cloudy-text: #9DA39B;
-  --weather-cloudy-border: #333833;
+  --weather-sunny-bg: rgba(255, 107, 44, 0.15);
+  --weather-sunny-text: #FF9E66;
+  --weather-sunny-border: rgba(255, 107, 44, 0.3);
+  --weather-cloudy-bg: #1C1E1B;
+  --weather-cloudy-text: #A0A29A;
+  --weather-cloudy-border: #262824;
   --weather-rainy-bg: #162432;
   --weather-rainy-text: #76A9D9;
   --weather-rainy-border: #223C56;

@@ -1,26 +1,25 @@
 import React, { useMemo } from 'react';
 import { useExpense } from '../context/ExpenseContext';
 import { PageHeader } from '../components/PageHeader';
-import { SummaryCard } from '../components/SummaryCard';
-import { BudgetCard } from '../components/BudgetCard';
-import { SmartBudgetAlert } from '../components/SmartBudgetAlert';
+import { FintechHeroCard } from '../components/FintechHeroCard';
 import { SpendingActivityChart } from '../components/SpendingActivityChart';
 import { CategoryChart } from '../components/CategoryChart';
 import { TransactionList } from '../components/TransactionList';
 import { SpendingSpeedometer } from '../components/SpendingSpeedometer';
 import { FinancialWeather } from '../components/FinancialWeather';
+import { SmartBudgetAlert } from '../components/SmartBudgetAlert';
 import { CategoryIcon } from '../components/CategoryIcon';
 import { getCategoryByName } from '../data/categories';
 import { formatINR } from '../utils/currency';
 import { formatMonthReadable } from '../utils/dates';
 import {
   TrendingDown,
-  Wallet,
   TrendingUp,
   Clock,
   ArrowRight,
-  Plus,
   Flame,
+  Calendar,
+  Sparkles,
 } from 'lucide-react';
 import './DashboardPage.css';
 
@@ -33,12 +32,11 @@ export function DashboardPage({ onNavigateToTransactions }) {
     budgetStatus,
     categoryTotals,
     openBudgetModal,
-    openAddModal,
   } = useExpense();
 
   const monthLabel = formatMonthReadable(selectedMonth);
 
-  // Contextual time greeting
+  // Contextual time-of-day greeting
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -46,7 +44,7 @@ export function DashboardPage({ onNavigateToTransactions }) {
     return 'Good evening';
   }, []);
 
-  // Calculate average daily spending for month
+  // Calculate average daily spending for active month
   const avgDailyPaise = useMemo(() => {
     const parts = (selectedMonth || '').split('-');
     const year = parseInt(parts[0], 10);
@@ -57,149 +55,52 @@ export function DashboardPage({ onNavigateToTransactions }) {
     return Math.round(monthlyTotalPaise / days);
   }, [selectedMonth, monthlyTotalPaise]);
 
-  // Highest spending category if available
+  // Highest spending category
   const topCategory = categoryTotals && categoryTotals.length > 0 ? categoryTotals[0] : null;
 
   return (
     <div className="dashboard-page">
-      {/* =========================================================================
-          SECTION A: Header (Compact Overview & Month Selector)
-         ========================================================================= */}
-      <section className="dashboard-row-1" aria-label="Dashboard Header">
+      {/* SECTION 1: Page Header with Month Selector (No duplicate Add Expense button) */}
+      <section className="dashboard-header-section" aria-label="Dashboard Controls">
         <PageHeader
           title="Overview"
-          subtitle={`${greeting} • Financial command center and spending intelligence for ${monthLabel}`}
+          subtitle={`${greeting} • Financial command center & spending insights for ${monthLabel}`}
           showMonthSelector={true}
           showAddExpense={false}
         />
       </section>
 
-      {/* =========================================================================
-          SECTION B: 3 Primary Financial Metric Cards
-          (Card 1: Total Spent, Card 2: Remaining Budget, Card 3: Budget Utilization)
-         ========================================================================= */}
-      <section className="dashboard-metrics-grid" aria-label="Key Financial Indicators">
-        {/* Card 1: Total Spent */}
-        <SummaryCard
-          title="Total Spent"
-          value={formatINR(monthlyTotalPaise)}
-          subtitle={`${monthlyExpenses.length} transaction${monthlyExpenses.length === 1 ? '' : 's'} recorded`}
-          icon={TrendingDown}
-          badgeText={monthLabel}
-          badgeVariant="neutral"
-        />
-
-        {/* Card 2: Remaining Budget */}
-        <SummaryCard
-          title={budgetStatus.isOverBudget ? 'Over Budget' : 'Remaining Budget'}
-          value={
-            budgetStatus.isSet
-              ? budgetStatus.isOverBudget
-                ? `+${formatINR(budgetStatus.overspentPaise)}`
-                : formatINR(budgetStatus.remainingPaise)
-              : '—'
-          }
-          subtitle={
-            budgetStatus.isSet
-              ? budgetStatus.isOverBudget
-                ? `Exceeded monthly target`
-                : `Available reserve for ${monthLabel}`
-              : 'Click to configure monthly target'
-          }
-          icon={TrendingUp}
-          badgeText={
-            budgetStatus.isSet
-              ? budgetStatus.isOverBudget
-                ? 'Over Budget'
-                : 'Within Target'
-              : 'Unset'
-          }
-          badgeVariant={
-            budgetStatus.isSet
-              ? budgetStatus.isOverBudget
-                ? 'danger'
-                : 'success'
-              : 'neutral'
-          }
-          onClick={openBudgetModal}
-        />
-
-        {/* Card 3: Budget Utilization */}
-        <SummaryCard
-          title="Budget Utilization"
-          value={budgetStatus.isSet ? `${budgetStatus.utilizationPercent}%` : 'Not Set'}
-          subtitle={
-            budgetStatus.isSet
-              ? `Of ${formatINR(currentBudgetPaise)} target limit`
-              : 'Click to set monthly target'
-          }
-          icon={Wallet}
-          progress={budgetStatus.isSet ? budgetStatus.visualProgressPercent : null}
-          badgeText={
-            budgetStatus.isSet
-              ? budgetStatus.isOverBudget
-                ? 'Exceeded'
-                : budgetStatus.statusLevel === 'warning'
-                ? 'Caution'
-                : 'On Track'
-              : 'Set Target'
-          }
-          badgeVariant={budgetStatus.isSet ? budgetStatus.statusLevel : 'neutral'}
-          onClick={openBudgetModal}
+      {/* SECTION 2: Prominent Fintech Hero Financial Card */}
+      <section className="dashboard-hero-section" aria-label="Financial Overview">
+        <FintechHeroCard
+          greeting={greeting}
+          onNavigateToTransactions={onNavigateToTransactions}
         />
       </section>
 
-      {/* =========================================================================
-          THIRD ROW: Main Budget Overview & Smart Budget Alert
-         ========================================================================= */}
-      <section className="dashboard-row-3" aria-label="Budget Overview & Alerts">
-        <SmartBudgetAlert />
-        <BudgetCard />
-      </section>
+      {/* SECTION 3: Contextual Smart Budget Alert Banner (when relevant) */}
+      <SmartBudgetAlert />
 
-      {/* =========================================================================
-          FOURTH ROW: Spending Trend Chart & Category Breakdown Chart
-         ========================================================================= */}
-      <section className="dashboard-charts-grid" aria-label="Visual Analytics & Trends">
-        {/* Spending trend chart over time (Daily / Weekly toggle) */}
-        <div className="chart-column">
-          <SpendingActivityChart
-            expenses={monthlyExpenses}
-            selectedMonth={selectedMonth}
-          />
-        </div>
-
-        {/* Category breakdown chart (Donut / Bar toggle with legends) */}
-        <div className="chart-column">
-          <div className="card dashboard-cat-card">
-            <CategoryChart
-              categoryTotals={categoryTotals}
-              totalMonthPaise={monthlyTotalPaise}
+      {/* SECTION 4: Balanced Multi-Column Workspace Layout */}
+      <div className="dashboard-grid-layout">
+        {/* PRIMARY COLUMN: Visual Trends & Recent Activity */}
+        <div className="dashboard-main-col">
+          {/* Spending Over Time Chart (Daily / Weekly toggle) */}
+          <section className="dashboard-chart-box" aria-label="Spending Trends">
+            <SpendingActivityChart
+              expenses={monthlyExpenses}
+              selectedMonth={selectedMonth}
             />
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* =========================================================================
-          FIFTH ROW: Recent Transactions & Relevant Spending Insights
-         ========================================================================= */}
-      <section className="dashboard-row-5-grid" aria-label="Transactions & Insights">
-        {/* Recent Transactions Card with Quick Actions */}
-        <div className="card recent-transactions-card">
-          <div className="recent-header">
-            <div>
-              <h2 className="recent-title">Recent Transactions</h2>
-              <p className="recent-subtitle">Latest entries for {monthLabel}</p>
-            </div>
-            <div className="recent-actions-row">
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                onClick={openAddModal}
-              >
-                <Plus size={14} />
-                <span>Add Expense</span>
-              </button>
+          {/* Recent Transactions (With View All link, NO duplicate Add Expense button) */}
+          <section className="card recent-transactions-card" aria-label="Recent Transactions">
+            <div className="recent-header">
+              <div>
+                <h2 className="recent-title">Recent Transactions</h2>
+                <p className="recent-subtitle">Latest recorded entries for {monthLabel}</p>
+              </div>
+
               {monthlyExpenses.length > 0 && (
                 <button
                   type="button"
@@ -211,17 +112,26 @@ export function DashboardPage({ onNavigateToTransactions }) {
                 </button>
               )}
             </div>
-          </div>
 
-          <TransactionList
-            expenses={monthlyExpenses}
-            limit={6}
-            onResetFilters={() => {}}
-          />
+            <TransactionList
+              expenses={monthlyExpenses}
+              limit={6}
+              onResetFilters={() => {}}
+            />
+          </section>
         </div>
 
-        {/* Relevant Spending Insights (Top Category, Speedometer & Weather) */}
-        <div className="dashboard-insights-col">
+        {/* SECONDARY COLUMN: Category Outlay, Velocity & Financial Weather */}
+        <div className="dashboard-sidebar-col">
+          {/* Category Breakdown (Donut / Bar) */}
+          <div className="card dashboard-cat-card" aria-label="Category Spending Breakdown">
+            <CategoryChart
+              categoryTotals={categoryTotals}
+              totalMonthPaise={monthlyTotalPaise}
+            />
+          </div>
+
+          {/* Top Spending Category Callout */}
           {topCategory && (
             <div className="card top-category-insight-card">
               <div className="top-cat-header">
@@ -241,21 +151,25 @@ export function DashboardPage({ onNavigateToTransactions }) {
                 >
                   <CategoryIcon
                     iconName={getCategoryByName(topCategory.name).iconName}
-                    size={18}
+                    size={20}
                     color={getCategoryByName(topCategory.name).color}
                   />
                 </div>
                 <div className="top-cat-info">
                   <span className="top-cat-name">{topCategory.name}</span>
-                  <span className="top-cat-amount">{formatINR(topCategory.totalPaise)}</span>
+                  <span className="top-cat-amount tabular-nums">{formatINR(topCategory.totalPaise)}</span>
                 </div>
               </div>
             </div>
           )}
+
+          {/* Financial Weather Intelligence */}
           <FinancialWeather />
+
+          {/* Spending Speedometer Velocity Gauge */}
           <SpendingSpeedometer />
         </div>
-      </section>
+      </div>
     </div>
   );
 }

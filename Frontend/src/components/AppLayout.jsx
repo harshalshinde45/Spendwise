@@ -11,8 +11,6 @@ import { Plus } from 'lucide-react';
 import './AppLayout.css';
 
 export function AppLayout({ activeTab, onTabChange, children }) {
-  const { openAddModal } = useExpense();
-
   return (
     <div className="app-shell">
       {/* Desktop Sidebar */}
@@ -28,18 +26,6 @@ export function AppLayout({ activeTab, onTabChange, children }) {
           {children}
         </main>
       </div>
-
-      {/* Floating Action Button (FAB) for thumb-friendly mobile entry */}
-      <button
-        type="button"
-        className="btn-fab"
-        onClick={openAddModal}
-        aria-label="Add new expense"
-        title="Add New Expense"
-      >
-        <Plus size={20} />
-        <span>Add Expense</span>
-      </button>
 
       {/* Global Modals & Dialogs */}
       <ExpenseModal />

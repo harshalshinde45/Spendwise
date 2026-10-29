@@ -1,50 +1,49 @@
-/* Dashboard Page - 5-Row Clean Layout */
+/* SpendWise Modern Fintech Dashboard - Inspired by Mobile Reference */
 .dashboard-page {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-4);
   animation: fadeIn var(--transition-normal);
 }
 
-/* Row 1: Header */
-.dashboard-row-1 {
+.dashboard-header-section {
   width: 100%;
 }
 
-.dashboard-row-1 .page-header {
-  margin-bottom: 0;
-}
-
-/* Row 2: 3-Metric Primary Command Center Grid */
-.dashboard-metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
-}
-
-/* Row 3: Main Budget Overview & Smart Alert */
-.dashboard-row-3 {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+.dashboard-hero-section {
   width: 100%;
 }
 
-/* Row 4: Visual Analytics Charts */
-.dashboard-charts-grid {
+/* Multi-Column Desktop Grid Layout */
+.dashboard-grid-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.25fr 0.85fr;
   gap: var(--space-5);
-  align-items: stretch;
+  align-items: start;
 }
 
-.dashboard-charts-grid .chart-column {
+/* Primary Column: Spending Activity Chart & Recent Transactions */
+.dashboard-main-col {
   display: flex;
   flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.dashboard-chart-box {
+  width: 100%;
+}
+
+/* Secondary Column: Categories, Weather, Speedometer */
+.dashboard-sidebar-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
 }
 
 .dashboard-cat-card {
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-surface);
@@ -54,14 +53,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* Row 5: Recent Transactions & Spending Insights */
-.dashboard-row-5-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: var(--space-5);
-  align-items: start;
-}
-
+/* Recent Transactions Card */
 .recent-transactions-card {
   display: flex;
   flex-direction: column;
@@ -78,20 +70,17 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  flex-wrap: wrap;
-}
-
-.recent-actions-row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .recent-title {
+  font-family: var(--font-family-display);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
+  font-weight: 700;
   color: var(--text-primary);
   margin: 0;
+  letter-spacing: -0.015em;
 }
 
 .recent-subtitle {
@@ -101,18 +90,23 @@
 }
 
 .view-all-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: var(--bg-accent-subtle);
+  border-radius: var(--radius-full);
+  padding: 5px 12px;
+  transition: all var(--transition-fast);
 }
 
-/* Insights Column */
-.dashboard-insights-col {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+.view-all-btn:hover {
+  background: var(--bg-accent-hover);
+  color: var(--accent-primary-hover);
 }
 
+/* Top Category Callout Card */
 .top-category-insight-card {
   padding: var(--space-4);
   background-color: var(--bg-surface);
@@ -135,11 +129,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  font-weight: 700;
   color: var(--accent-primary);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  font-family: var(--font-family-display);
 }
 
 .top-cat-flame-icon {
@@ -147,12 +142,13 @@
 }
 
 .top-cat-share {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  font-weight: 600;
   color: var(--text-secondary);
   background-color: var(--bg-surface-subtle);
-  padding: 2px 8px;
+  padding: 3px 8px;
   border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-subtle);
 }
 
 .top-cat-body {
@@ -162,8 +158,8 @@
 }
 
 .top-cat-icon-wrap {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -179,41 +175,39 @@
 .top-cat-name {
   font-family: var(--font-family-body);
   font-size: var(--font-size-sm);
-  font-weight: 500; /* DM Sans 500 */
+  font-weight: 600;
   color: var(--text-primary);
 }
 
 .top-cat-amount {
   font-family: var(--font-family-display);
-  font-size: var(--font-size-lg);
-  font-weight: 700; /* Manrope 700 with tabular numerals */
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1, "cv05" 1;
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
 }
 
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Responsive Breakpoints */
-@media (max-width: 1080px) {
-  .dashboard-metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .dashboard-charts-grid {
+@media (max-width: 1024px) {
+  .dashboard-grid-layout {
     grid-template-columns: 1fr;
-  }
-  .dashboard-row-5-grid {
-    grid-template-columns: 1fr;
+    gap: var(--space-4);
   }
 }
 
 @media (max-width: 640px) {
-  .dashboard-metrics-grid {
-    grid-template-columns: 1fr;
+  .dashboard-page {
+    gap: var(--space-3);
   }
   .recent-header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .recent-actions-row {
-    justify-content: flex-end;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }

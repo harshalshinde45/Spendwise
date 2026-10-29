@@ -39,7 +39,7 @@
 .search-input:focus {
   border-color: var(--color-border-focus);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(62, 107, 80, 0.12);
+  box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.18);
 }
 
 .search-clear-btn {

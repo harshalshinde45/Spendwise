@@ -83,12 +83,12 @@
 .brand-logo-mark {
   width: 42px;
   height: 42px;
-  border-radius: var(--radius-sm, 8px);
-  background-color: var(--accent-primary, #A9553D);
+  border-radius: var(--radius-sm, 10px);
+  background-color: var(--accent-primary, #FF6B2C);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(169, 85, 61, 0.35);
+  box-shadow: 0 4px 14px rgba(255, 107, 44, 0.35);
   flex-shrink: 0;
 }
 
@@ -186,9 +186,9 @@
 }
 
 .micro-card-icon-box.velocity {
-  background-color: #EBF0E9;
-  color: #72866A;
-  border: 1px solid #C8D6C4;
+  background-color: var(--status-success-bg, #E6F7EF);
+  color: var(--status-success, #55B982);
+  border: 1px solid var(--status-success-border, #B7E7CE);
 }
 
 .micro-card-titles {
@@ -210,14 +210,14 @@
 }
 
 .micro-badge.velocity-badge {
-  color: #72866A;
+  color: var(--status-success, #55B982);
 }
 
 .micro-title {
   font-family: var(--font-family-display);
   font-size: 13px;
   font-weight: 600; /* Manrope 600 */
-  color: var(--text-primary, #292923);
+  color: var(--text-primary, #171816);
 }
 
 .micro-metric-highlight {
@@ -226,8 +226,8 @@
   font-weight: 700; /* Manrope 700 tabular */
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
-  color: var(--text-primary, #292923);
-  background-color: var(--bg-surface-subtle, #F3EFE6);
+  color: var(--text-primary, #171816);
+  background-color: var(--bg-surface-subtle, #F1F2F0);
   padding: 3px 8px;
   border-radius: var(--radius-xs, 4px);
 }
@@ -235,7 +235,7 @@
 .micro-progress-track {
   width: 100%;
   height: 6px;
-  background-color: var(--bg-surface-subtle, #F3EFE6);
+  background-color: var(--bg-surface-subtle, #F1F2F0);
   border-radius: 9999px;
   margin-top: 10px;
   overflow: hidden;
@@ -243,7 +243,7 @@
 
 .micro-progress-fill.weather-fill {
   height: 100%;
-  background: linear-gradient(90deg, #72866A 0%, #C49A58 100%);
+  background: linear-gradient(90deg, #55B982 0%, #FF6B2C 100%);
   border-radius: 9999px;
   transition: width 1s ease-in-out;
 }
@@ -281,7 +281,7 @@
 }
 
 .privacy-shield-icon {
-  color: #72866A;
+  color: var(--status-success, #55B982);
   margin-top: 2px;
   flex-shrink: 0;
 }
@@ -317,8 +317,8 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: #72866A;
-  box-shadow: 0 0 0 2px rgba(114, 134, 106, 0.35);
+  background-color: var(--status-success, #55B982);
+  box-shadow: 0 0 0 2px rgba(85, 185, 130, 0.35);
   flex-shrink: 0;
 }
 
@@ -490,14 +490,14 @@
   border: none;
   padding: 0;
   font-size: 12px;
-  color: var(--accent-primary, #A9553D);
+  color: var(--accent-primary, #FF6B2C);
   cursor: pointer;
   font-weight: 500;
   transition: color 0.15s ease;
 }
 
 .auth-ghost-link:hover {
-  color: var(--accent-primary-hover, #93452F);
+  color: var(--accent-primary-hover, #EA571D);
   text-decoration: underline;
 }
 
@@ -539,12 +539,12 @@
 
 .auth-text-input:focus {
   outline: none !important;
-  border-color: var(--accent-primary, #A9553D) !important;
-  box-shadow: 0 0 0 3px rgba(169, 85, 61, 0.15) !important;
+  border-color: var(--accent-primary, #FF6B2C) !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.18) !important;
 }
 
 .auth-text-input:focus + .auth-field-icon {
-  color: var(--accent-primary, #A9553D);
+  color: var(--accent-primary, #FF6B2C);
 }
 
 .auth-text-input::placeholder {
@@ -613,11 +613,11 @@
 }
 
 .match-badge.matched {
-  color: #72866A;
+  color: var(--status-success, #55B982);
 }
 
 .match-badge.mismatched {
-  color: #B53F3F;
+  color: var(--status-danger, #E65050);
 }
 
 /* Submit Action Button */
@@ -631,17 +631,17 @@
   gap: 8px !important;
   font-size: 14px !important;
   font-weight: 600 !important;
-  border-radius: var(--radius-sm, 8px) !important;
-  background-color: var(--accent-primary, #A9553D) !important;
+  border-radius: var(--radius-sm, 10px) !important;
+  background-color: var(--accent-primary, #FF6B2C) !important;
   color: #FFFFFF !important;
-  box-shadow: 0 4px 12px rgba(169, 85, 61, 0.28) !important;
+  box-shadow: 0 4px 14px rgba(255, 107, 44, 0.32) !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .auth-action-button:hover:not(:disabled) {
-  background-color: var(--accent-primary-hover, #93452F) !important;
+  background-color: var(--accent-primary-hover, #EA571D) !important;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(169, 85, 61, 0.35) !important;
+  box-shadow: 0 6px 18px rgba(255, 107, 44, 0.42) !important;
 }
 
 .auth-action-button:active:not(:disabled) {
@@ -692,22 +692,22 @@
 }
 
 .auth-demo-pill:hover {
-  background-color: var(--bg-surface-subtle, #F3EFE6);
-  color: var(--accent-primary, #A9553D);
-  border-color: var(--accent-primary, #A9553D);
+  background-color: var(--bg-surface-subtle, #F1F2F0);
+  color: var(--accent-primary, #FF6B2C);
+  border-color: var(--accent-primary, #FF6B2C);
 }
 
 /* Card Footer Switch Prompt */
 .auth-card-footer-switch {
   margin-top: var(--space-4, 16px);
   padding-top: var(--space-4, 16px);
-  border-top: 1px solid var(--color-border-subtle, #E8E3D8);
+  border-top: 1px solid var(--color-border-subtle, #E8E9E6);
   text-align: center;
 }
 
 .auth-card-footer-switch p {
   font-size: 13px;
-  color: var(--text-secondary, #77766C);
+  color: var(--text-secondary, #777972);
   margin: 0;
 }
 
@@ -717,13 +717,13 @@
   padding: 0;
   font-size: 13px;
   font-weight: 600;
-  color: var(--accent-primary, #A9553D);
+  color: var(--accent-primary, #FF6B2C);
   cursor: pointer;
   transition: color 0.15s ease;
 }
 
 .auth-inline-switch-btn:hover {
-  color: var(--accent-primary-hover, #93452F);
+  color: var(--accent-primary-hover, #EA571D);
   text-decoration: underline;
 }
 
@@ -744,7 +744,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #72866A;
+  background-color: var(--status-success, #55B982);
   flex-shrink: 0;
 }
 

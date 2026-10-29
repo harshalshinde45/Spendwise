@@ -24,7 +24,7 @@
 .scope-tabs {
   display: flex;
   background-color: var(--bg-surface-subtle);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   padding: 3px;
   border: 1px solid var(--color-border);
 }
@@ -35,16 +35,17 @@
   gap: 6px;
   padding: 6px 14px;
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--radius-xs);
+  font-family: var(--font-family-body);
+  font-weight: 500;
+  border-radius: var(--radius-full);
   color: var(--text-secondary);
   transition: all 0.15s ease;
 }
 
 .scope-tab.active {
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
-  font-weight: var(--font-weight-semibold);
+  background-color: var(--text-primary);
+  color: var(--text-inverse);
+  font-weight: 600;
   box-shadow: var(--shadow-xs);
 }
 

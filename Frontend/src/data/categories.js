@@ -1,78 +1,78 @@
 /**
- * Default categories as defined in the SpendWise SRS.
- * Colors and icons use a calm, accessible palette.
+ * Categories defined for SpendWise.
+ * Colors and icons use a modern, accessible, high-contrast fintech palette.
  */
 export const CATEGORIES = [
   {
     id: 'food',
     name: 'Food',
     iconName: 'Utensils',
-    color: '#3E6B50', // Forest Green
-    bgColor: '#E8F0E8',
+    color: '#FF6B2C', // Signature Vibrant Orange
+    bgColor: '#FFF2EC',
     examples: 'Groceries, dining out, snacks, coffee'
   },
   {
     id: 'transport',
     name: 'Transport',
     iconName: 'Bus',
-    color: '#8A5D3B', // Terracotta Brown
-    bgColor: '#F5ECE5',
+    color: '#2563EB', // Cobalt Blue
+    bgColor: '#EFF6FF',
     examples: 'Public transit, fuel, rideshare, parking'
   },
   {
     id: 'rent-bills',
     name: 'Rent & Bills',
     iconName: 'Home',
-    color: '#4B6375', // Warm Slate Blue
-    bgColor: '#E8EEF3',
+    color: '#7C3AED', // Violet
+    bgColor: '#F5F3FF',
     examples: 'Rent, electricity, water, internet, recharge'
   },
   {
     id: 'shopping',
     name: 'Shopping',
     iconName: 'ShoppingBag',
-    color: '#A6533A', // Warm Brick
-    bgColor: '#F8ECE8',
+    color: '#EC4899', // Berry Pink
+    bgColor: '#FDF2F8',
     examples: 'Clothing, gadgets, household essentials'
   },
   {
     id: 'education',
     name: 'Education',
     iconName: 'GraduationCap',
-    color: '#5C5470', // Muted Deep Iris
-    bgColor: '#ECEAF2',
+    color: '#0EA5E9', // Sky Blue
+    bgColor: '#F0F9FF',
     examples: 'Books, courses, tuition, stationary'
   },
   {
     id: 'entertainment',
     name: 'Entertainment',
     iconName: 'Film',
-    color: '#82633F', // Muted Ochre
-    bgColor: '#F6EFE6',
+    color: '#F59E0B', // Amber
+    bgColor: '#FFFBEB',
     examples: 'Movies, games, streaming services, events'
   },
   {
     id: 'health',
     name: 'Health',
     iconName: 'HeartPulse',
-    color: '#9C3D49', // Muted Crimson
-    bgColor: '#F7EBED',
+    color: '#10B981', // Emerald
+    bgColor: '#ECFDF5',
     examples: 'Medicines, doctor visits, wellness, gym'
   },
   {
     id: 'personal-care',
     name: 'Personal Care',
     iconName: 'Sparkles',
-    color: '#547268', // Muted Sage
-    bgColor: '#EAF1EE',
+    color: '#14B8A6', // Teal
+    bgColor: '#F0FDFA',
     examples: 'Haircuts, grooming, personal care products'
   },
   {
     id: 'other',
     name: 'Other',
     iconName: 'CircleEllipsis',
-    color: '#656D60', // Neutral Charcoal Sage
-    bgColor: '#EFF0ED',
+    color: '#64748B', // Slate Grey
+    bgColor: '#F8FAFC',
     examples: 'Miscellaneous and unexpected expenses'
   }
 ];
@@ -84,8 +84,8 @@ export function getCategoryByName(name) {
     id: 'other',
     name: name || 'Other',
     iconName: 'CircleEllipsis',
-    color: '#656D60',
-    bgColor: '#EFF0ED',
+    color: '#64748B',
+    bgColor: '#F8FAFC',
     examples: 'General expense'
   };
 }
