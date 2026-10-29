@@ -44,6 +44,14 @@ export function getSanitizedMongoUri(uri) {
   return uri.replace(/\/\/([^:]+):([^@]+)@/, '//$1:*****@');
 }
 
+const GEMINI_API_KEY = (process.env.GEMINI_API_KEY || '').trim();
+const GEMINI_MODEL = (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim();
+const isGeminiConfigured = Boolean(GEMINI_API_KEY.length > 0);
+
+if (!isGeminiConfigured && NODE_ENV !== 'test') {
+  console.info('[SpendWise AI]: GEMINI_API_KEY is not configured. AI assistant endpoints will respond with 503 Service Unavailable.');
+}
+
 export const env = {
   PORT: parseInt(process.env.PORT, 10) || 5001,
   NODE_ENV,
@@ -52,4 +60,7 @@ export const env = {
   JWT_SECRET: jwtSecret,
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || '',
+  GEMINI_API_KEY,
+  GEMINI_MODEL,
+  isGeminiConfigured,
 };

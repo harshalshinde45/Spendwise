@@ -10,6 +10,7 @@ import analyticsRoutes from './routes/analyticsRoutes.js';
 import migrationRoutes from './routes/migrationRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 import goalRoutes from './routes/goalRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 export function createApp() {
@@ -129,6 +130,7 @@ export function createApp() {
   app.use('/api/budgets', apiLimiter, budgetRoutes);
   app.use('/api/analytics', apiLimiter, analyticsRoutes);
   app.use('/api/goals', apiLimiter, goalRoutes);
+  app.use('/api/ai', aiRoutes);
   app.use('/api', apiLimiter, migrationRoutes);
 
   // Fallback handlers
