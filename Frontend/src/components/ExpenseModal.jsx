@@ -4,7 +4,8 @@ import { CATEGORIES } from '../data/categories';
 import { validateExpense, MAX_DESCRIPTION_LENGTH } from '../utils/validation';
 import { getTodayDateString } from '../utils/dates';
 import { paiseToInputValue } from '../utils/currency';
-import { X, AlertCircle, Plus, Check } from 'lucide-react';
+import { aiService } from '../services/aiService';
+import { X, AlertCircle, Plus, Check, Sparkles, FileText, CheckCircle2 } from 'lucide-react';
 import './ExpenseModal.css';
 
 export function ExpenseModal() {
@@ -22,6 +23,15 @@ export function ExpenseModal() {
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // AI Natural-Language Entry States (Phase 2)
+  const [entryMode, setEntryMode] = useState('manual'); // 'manual' | 'ai'
+  const [aiText, setAiText] = useState('');
+  const [isParsingAI, setIsParsingAI] = useState(false);
+  const [aiError, setAiError] = useState(null);
+  const [isDraftActive, setIsDraftActive] = useState(false);
+  const [aiClarification, setAiClarification] = useState(null);
+  const [aiMissingFields, setAiMissingFields] = useState([]);
 
   const amountInputRef = useRef(null);
 
@@ -41,6 +51,15 @@ export function ExpenseModal() {
       }
       setErrors({});
       setIsSubmitting(false);
+
+      // Reset AI draft states
+      setEntryMode('manual');
+      setAiText('');
+      setIsParsingAI(false);
+      setAiError(null);
+      setIsDraftActive(false);
+      setAiClarification(null);
+      setAiMissingFields([]);
 
       // Focus the amount input
       setTimeout(() => {
@@ -114,6 +133,57 @@ export function ExpenseModal() {
 
   const isEditing = Boolean(editingExpense);
 
+  const handleGenerateDraft = async (e) => {
+    if (e) e.preventDefault();
+    const trimmed = aiText.trim();
+    if (!trimmed || isParsingAI) return;
+
+    setIsParsingAI(true);
+    setAiError(null);
+    setAiClarification(null);
+
+    try {
+      const today = getTodayDateString();
+      const result = await aiService.parseExpense(trimmed, today);
+
+      if (result && result.draft) {
+        // Populate form with draft values
+        if (result.draft.amount != null) {
+          setAmount(String(result.draft.amount));
+        } else if (result.draft.amountPaise != null) {
+          setAmount(paiseToInputValue(result.draft.amountPaise));
+        }
+
+        if (result.draft.category) {
+          setCategory(result.draft.category);
+        }
+
+        if (result.draft.date) {
+          setDate(result.draft.date);
+        }
+
+        if (result.draft.description) {
+          setDescription(result.draft.description);
+        }
+
+        setIsDraftActive(true);
+        setAiMissingFields(result.missingFields || []);
+        setAiClarification(result.clarificationNeeded || null);
+        setErrors({});
+      } else {
+        throw new Error('Received an unexpected draft format from the server.');
+      }
+    } catch (err) {
+      // Preserve user's text in aiText and surface clear, safe error
+      setAiError(
+        err.message ||
+          'Unable to generate draft with AI. Please check your connection or switch to manual entry.'
+      );
+    } finally {
+      setIsParsingAI(false);
+    }
+  };
+
   return (
     <div className="modal-backdrop" onClick={() => !isSubmitting && closeExpenseModal()}>
       <div
@@ -131,12 +201,122 @@ export function ExpenseModal() {
             type="button"
             className="modal-close-btn"
             onClick={closeExpenseModal}
-            disabled={isSubmitting}
+            disabled={isSubmitting || isParsingAI}
             aria-label="Close dialog"
           >
             <X size={18} />
           </button>
         </div>
+
+        {/* Entry Mode Switcher (Visible only in Add Expense mode) */}
+        {!isEditing && (
+          <div className="entry-mode-tabs" role="tablist" aria-label="Expense input mode">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={entryMode === 'manual'}
+              className={`entry-mode-tab ${entryMode === 'manual' ? 'active' : ''}`}
+              onClick={() => {
+                setEntryMode('manual');
+                setAiError(null);
+              }}
+            >
+              <FileText size={14} />
+              <span>Manual Entry</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={entryMode === 'ai'}
+              className={`entry-mode-tab ${entryMode === 'ai' ? 'active' : ''}`}
+              onClick={() => {
+                setEntryMode('ai');
+                setAiError(null);
+              }}
+            >
+              <Sparkles size={14} className="sparkle-icon" />
+              <span>Describe with AI</span>
+            </button>
+          </div>
+        )}
+
+        {/* AI Natural-Language Input Panel */}
+        {!isEditing && entryMode === 'ai' && (
+          <div className="ai-entry-panel">
+            <div className="ai-entry-label">
+              <span>Describe your expense in plain language</span>
+              <span className="ai-char-counter">{aiText.length}/500</span>
+            </div>
+            <textarea
+              id="ai-expense-text"
+              className="ai-entry-textarea"
+              rows={3}
+              maxLength={500}
+              placeholder='e.g. "I spent ₹180 on lunch at a restaurant today." or "Paid ₹350 for metro recharge yesterday"'
+              value={aiText}
+              disabled={isParsingAI || isSubmitting}
+              onChange={(e) => {
+                setAiText(e.target.value);
+                if (aiError) setAiError(null);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                  handleGenerateDraft(e);
+                }
+              }}
+            />
+
+            {aiError && (
+              <div className="ai-error-banner" role="alert">
+                <AlertCircle size={15} />
+                <span>{aiError}</span>
+              </div>
+            )}
+
+            <div className="ai-action-row">
+              <span className="ai-hint-text">
+                Press <strong>Generate Draft</strong> to extract fields. No expense is saved automatically.
+              </span>
+              <button
+                type="button"
+                className="ai-generate-btn"
+                onClick={handleGenerateDraft}
+                disabled={isParsingAI || isSubmitting || !aiText.trim()}
+              >
+                {isParsingAI ? (
+                  <>
+                    <div className="btn-spinner" />
+                    <span>Extracting with Gemini...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles size={14} />
+                    <span>Generate Draft</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* AI Draft Review Notice */}
+        {isDraftActive && (
+          <div className="ai-draft-notice-banner" role="status">
+            <div className="draft-notice-header">
+              <CheckCircle2 size={16} className="draft-success-icon" />
+              <strong>AI Draft Ready for Review</strong>
+            </div>
+            <p className="draft-notice-desc">
+              Review and edit any field below. Nothing is saved until you click <strong>Confirm &amp; Save Expense</strong>.
+            </p>
+            {aiClarification && (
+              <div className="draft-clarification-tag">
+                <AlertCircle size={13} />
+                <span>{aiClarification}</span>
+              </div>
+            )}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} noValidate className="expense-form">
           {/* Amount Field (Frequently Used: 1st) */}
@@ -268,7 +448,7 @@ export function ExpenseModal() {
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isParsingAI}
             >
               {isSubmitting ? (
                 <span>Saving...</span>
@@ -276,6 +456,11 @@ export function ExpenseModal() {
                 <>
                   <Check size={16} />
                   <span>Save Changes</span>
+                </>
+              ) : isDraftActive ? (
+                <>
+                  <Check size={16} />
+                  <span>Confirm &amp; Save Expense</span>
                 </>
               ) : (
                 <>

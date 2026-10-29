@@ -64,3 +64,211 @@
   padding-top: var(--space-4);
   border-top: 1px solid var(--color-border-subtle);
 }
+
+/* Entry Mode Tabs (Manual vs AI) */
+.entry-mode-tabs {
+  display: flex;
+  gap: 4px;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--color-border);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+
+.entry-mode-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.entry-mode-tab:hover:not(.active) {
+  color: var(--text-primary);
+}
+
+.entry-mode-tab.active {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+}
+
+.entry-mode-tab .sparkle-icon {
+  color: var(--accent-primary);
+}
+
+/* AI Entry Panel */
+.ai-entry-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+
+.ai-entry-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.ai-char-counter {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ai-entry-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 68px;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-sizing: border-box;
+}
+
+.ai-entry-textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(255, 107, 44, 0.18);
+}
+
+.ai-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: var(--status-danger-bg);
+  border: 1px solid var(--status-danger-border);
+  border-radius: var(--radius-sm);
+  color: var(--status-danger);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ai-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.ai-hint-text {
+  font-size: 11px;
+  color: var(--text-muted);
+  flex: 1;
+  min-width: 180px;
+}
+
+.ai-generate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.ai-generate-btn:hover:not(:disabled) {
+  background-color: var(--accent-primary-hover);
+  transform: translateY(-1px);
+}
+
+.ai-generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* AI Draft Notice Banner */
+.ai-draft-notice-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  background-color: var(--status-success-bg);
+  border: 1px solid var(--status-success-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  animation: fadeIn 0.25s ease;
+}
+
+.draft-notice-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--status-success);
+}
+
+.draft-success-icon {
+  flex-shrink: 0;
+}
+
+.draft-notice-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.draft-clarification-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--status-warning);
+  background-color: var(--status-warning-bg);
+  border: 1px solid var(--status-warning-border);
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  margin-top: 4px;
+}
+
+.btn-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

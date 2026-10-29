@@ -49,4 +49,14 @@ export const expenseService = {
       method: 'DELETE',
     });
   },
+
+  /**
+   * Parse natural-language text into a structured draft proposal (Zero-write).
+   */
+  async parseExpenseWithAI(text, referenceDate) {
+    return apiRequest('/ai/parse-expense', {
+      method: 'POST',
+      body: { text, referenceDate },
+    });
+  },
 };

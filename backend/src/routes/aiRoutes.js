@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAIStatus, pingAI } from '../controllers/aiController.js';
+import { getAIStatus, pingAI, parseExpense } from '../controllers/aiController.js';
 import { requireAuth } from '../middleware/auth.js';
 import { aiRateLimiter } from '../middleware/aiLimiter.js';
 
@@ -16,5 +16,8 @@ router.get('/status', getAIStatus);
 
 // Connectivity / generation ping
 router.post('/ping', pingAI);
+
+// Natural-language expense parser (Zero-write draft generator)
+router.post('/parse-expense', parseExpense);
 
 export default router;
