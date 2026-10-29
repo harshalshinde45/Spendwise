@@ -133,8 +133,8 @@ export async function generateContent({
   } catch (err) {
     clearTimeout(timeoutId);
 
-    // If already mapped with status, propagate
-    if (err.status) throw err;
+    // If already mapped with status and internal error code, propagate
+    if (err.status && err.code) throw err;
 
     // Safely parse and map upstream Google GenAI SDK errors without exposing secrets
     const errorMessage = err.message || '';
@@ -160,6 +160,23 @@ export async function generateContent({
       safeErr.status = 429;
       safeErr.code = 'AI_QUOTA_EXCEEDED';
       safeErr.message = 'Google Gemini rate limit or quota exceeded. Please try again shortly.';
+    } else if (
+      lower.includes('not_found') ||
+      lower.includes('not found') ||
+      lower.includes('404') ||
+      lower.includes('no longer available')
+    ) {
+      safeErr.status = 502;
+      safeErr.code = 'AI_MODEL_UNAVAILABLE';
+      safeErr.message = 'The configured Google Gemini model is unavailable or deprecated. Please check GEMINI_MODEL.';
+    } else if (
+      lower.includes('503') ||
+      lower.includes('unavailable') ||
+      lower.includes('high demand')
+    ) {
+      safeErr.status = 503;
+      safeErr.code = 'AI_HIGH_DEMAND';
+      safeErr.message = 'Google Gemini is currently experiencing temporary high demand. Please try again shortly.';
     } else if (lower.includes('safety') || lower.includes('blocked')) {
       safeErr.status = 400;
       safeErr.code = 'AI_CONTENT_BLOCKED';

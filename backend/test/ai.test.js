@@ -27,7 +27,7 @@ describe('Google Gemini AI Integration — Foundation & Security (Phase 1)', () 
   it('verifies the backend environment handles unconfigured Gemini gracefully', () => {
     assert.strictEqual(typeof isAIAvailable(), 'boolean');
     assert.ok(env.GEMINI_MODEL, 'Default GEMINI_MODEL must be defined');
-    assert.strictEqual(env.GEMINI_MODEL, 'gemini-2.5-flash');
+    assert.strictEqual(env.GEMINI_MODEL, 'gemini-3.5-flash-lite');
   });
 
   it('rejects unauthenticated requests to AI endpoints with 401 Unauthorized', async () => {

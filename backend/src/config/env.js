@@ -45,7 +45,7 @@ export function getSanitizedMongoUri(uri) {
 }
 
 const GEMINI_API_KEY = (process.env.GEMINI_API_KEY || '').trim();
-const GEMINI_MODEL = (process.env.GEMINI_MODEL || 'gemini-2.5-flash').trim();
+const GEMINI_MODEL = (process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite').trim();
 const isGeminiConfigured = Boolean(GEMINI_API_KEY.length > 0);
 
 if (!isGeminiConfigured && NODE_ENV !== 'test') {

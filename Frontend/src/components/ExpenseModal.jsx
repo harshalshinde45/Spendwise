@@ -175,10 +175,20 @@ export function ExpenseModal() {
       }
     } catch (err) {
       // Preserve user's text in aiText and surface clear, safe error
-      setAiError(
+      let userFriendlyMessage =
         err.message ||
-          'Unable to generate draft with AI. Please check your connection or switch to manual entry.'
-      );
+        'Unable to generate draft with AI. Please check your connection or switch to manual entry.';
+
+      if (
+        (err.status === 404 || err.statusCode === 404) &&
+        typeof err.message === 'string' &&
+        err.message.includes('Cannot POST')
+      ) {
+        userFriendlyMessage =
+          'AI parsing endpoint not found on backend. Please restart your backend server (npm run dev in backend) to activate newly mounted routes.';
+      }
+
+      setAiError(userFriendlyMessage);
     } finally {
       setIsParsingAI(false);
     }
