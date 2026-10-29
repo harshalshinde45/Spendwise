@@ -1,30 +1,16 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import dotenv from 'dotenv';
+import { env, getSanitizedMongoUri } from './config/env.js';
 import { createApp } from './app.js';
 import { connectDatabase, disconnectDatabase } from './config/database.js';
 
-// Resolve directory of server.js to reliably load backend/.env regardless of process.cwd()
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const backendEnvPath = path.resolve(__dirname, '../.env');
-
-// Ensure environment variables are loaded before reading PORT or starting server
-dotenv.config({ path: backendEnvPath });
-// Also load from current working directory as fallback
-dotenv.config();
-
-const PORT = parseInt(process.env.PORT, 10) || 5001;
-const MONGODB_URI = process.env.MONGODB_URI || '';
-
 const app = createApp();
 
-const server = app.listen(PORT, async () => {
-  console.log(`[SpendWise Backend] 🚀 Server running on port ${PORT} (http://localhost:${PORT})`);
-  console.log(`[SpendWise Backend] 🌐 Health endpoint: http://localhost:${PORT}/api/health`);
+const server = app.listen(env.PORT, async () => {
+  console.log(`[SpendWise Backend] 🚀 Server running in ${env.NODE_ENV} mode on port ${env.PORT} (http://localhost:${env.PORT})`);
+  console.log(`[SpendWise Backend] 🌐 Health endpoint: http://localhost:${env.PORT}/api/health`);
+  console.log(`[SpendWise Backend] 🗄️ Database target: ${getSanitizedMongoUri(env.MONGODB_URI)}`);
 
   // Attempt database connection
-  await connectDatabase(MONGODB_URI);
+  await connectDatabase(env.MONGODB_URI);
 });
 
 // Handle graceful shutdown

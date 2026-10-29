@@ -1,10 +1,11 @@
+import mongoose from 'mongoose';
 import { Expense } from '../models/Expense.js';
 import { MonthlyBudget } from '../models/MonthlyBudget.js';
 import { isValidMonthKey } from '../utils/validation.js';
 
 /**
  * GET /api/analytics/monthly/:month
- * Returns monthly analytics calculated from real database records for the authenticated user.
+ * Returns monthly analytics calculated via high-performance MongoDB aggregation pipeline.
  */
 export async function getMonthlyAnalytics(req, res, next) {
   try {
@@ -17,42 +18,69 @@ export async function getMonthlyAnalytics(req, res, next) {
       });
     }
 
-    // 1. Fetch all expenses for the target month for authenticated user
-    const expenses = await Expense.find({
-      userId: req.user.id,
-      date: { $regex: `^${month}` },
-    });
-    const transactionCount = expenses.length;
-    const totalSpentPaise = expenses.reduce((sum, exp) => sum + exp.amountPaise, 0);
+    const userObjectId = new mongoose.Types.ObjectId(req.user.id);
+    const startDate = `${month}-01`;
+    const endDate = `${month}-31`;
 
-    // 2. Fetch budget for the target month for authenticated user
-    const budgetDoc = await MonthlyBudget.findOne({ userId: req.user.id, month });
+    // 1. High-Performance MongoDB Aggregation Pipeline
+    const [aggResult, budgetDoc] = await Promise.all([
+      Expense.aggregate([
+        {
+          $match: {
+            userId: userObjectId,
+            date: { $gte: startDate, $lte: endDate },
+          },
+        },
+        {
+          $facet: {
+            totals: [
+              {
+                $group: {
+                  _id: null,
+                  totalSpentPaise: { $sum: '$amountPaise' },
+                  count: { $sum: 1 },
+                },
+              },
+            ],
+            categories: [
+              {
+                $group: {
+                  _id: '$category',
+                  totalPaise: { $sum: '$amountPaise' },
+                  count: { $sum: 1 },
+                },
+              },
+              { $sort: { totalPaise: -1 } },
+            ],
+          },
+        },
+      ]),
+      MonthlyBudget.findOne({ userId: req.user.id, month }),
+    ]);
+
+    const totalsData = aggResult[0]?.totals[0] || { totalSpentPaise: 0, count: 0 };
+    const rawCategories = aggResult[0]?.categories || [];
+
+    const totalSpentPaise = totalsData.totalSpentPaise;
+    const transactionCount = totalsData.count;
+
+    // 2. Budget information for target month
     const budgetPaise = budgetDoc ? budgetDoc.amountPaise : 0;
     const isBudgetSet = budgetPaise > 0;
 
-    // 3. Compute Category breakdown
-    const categoryMap = new Map();
-    for (const exp of expenses) {
-      const cat = exp.category || 'Other';
-      const existing = categoryMap.get(cat) || { totalPaise: 0, count: 0 };
-      categoryMap.set(cat, {
-        totalPaise: existing.totalPaise + exp.amountPaise,
-        count: existing.count + 1,
-      });
-    }
-
-    const categoryBreakdown = [];
-    for (const [name, data] of categoryMap.entries()) {
-      const percentage = totalSpentPaise > 0 ? Number(((data.totalPaise / totalSpentPaise) * 100).toFixed(1)) : 0;
-      categoryBreakdown.push({
-        name,
-        totalPaise: data.totalPaise,
-        count: data.count,
+    // 3. Category Breakdown calculation
+    const categoryBreakdown = rawCategories.map((cat) => {
+      const percentage =
+        totalSpentPaise > 0
+          ? Number(((cat.totalPaise / totalSpentPaise) * 100).toFixed(1))
+          : 0;
+      return {
+        name: cat._id || 'Other',
+        totalPaise: cat.totalPaise,
+        count: cat.count,
         percentage,
-      });
-    }
-    // Sort descending by total spend
-    categoryBreakdown.sort((a, b) => b.totalPaise - a.totalPaise);
+      };
+    });
 
     // 4. Compute budget utilization & status
     let remainingPaise = 0;

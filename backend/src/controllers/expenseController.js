@@ -1,15 +1,21 @@
 import { Expense } from '../models/Expense.js';
-import { validateExpenseInput, isValidObjectId, isValidMonthKey } from '../utils/validation.js';
+import {
+  validateExpenseInput,
+  isValidObjectId,
+  isValidMonthKey,
+  ALLOWED_CATEGORIES,
+} from '../utils/validation.js';
 
 /**
  * GET /api/expenses
- * Retrieve expenses owned by the authenticated user, with optional filtering and sorting.
+ * Retrieve expenses owned by the authenticated user, with optional filtering, sorting, and pagination.
  */
 export async function getExpenses(req, res, next) {
   try {
-    const { month, category, sort } = req.query;
+    const { month, category, sort, limit, page } = req.query;
     const filter = { userId: req.user.id };
 
+    // Efficient B-Tree date range filter
     if (month) {
       if (!isValidMonthKey(month)) {
         return res.status(400).json({
@@ -17,11 +23,15 @@ export async function getExpenses(req, res, next) {
           message: 'Invalid month format. Expected YYYY-MM.',
         });
       }
-      filter.date = { $regex: `^${month}` };
+      filter.date = { $gte: `${month}-01`, $lte: `${month}-31` };
     }
 
+    // Strict category validation & sanitization
     if (category) {
-      filter.category = category;
+      const cleanCat = String(category).trim();
+      if (ALLOWED_CATEGORIES.includes(cleanCat)) {
+        filter.category = cleanCat;
+      }
     }
 
     let sortOptions = { date: -1, createdAt: -1 };
@@ -33,7 +43,16 @@ export async function getExpenses(req, res, next) {
       sortOptions = { amountPaise: 1, date: -1 };
     }
 
-    const expenses = await Expense.find(filter).sort(sortOptions);
+    let query = Expense.find(filter).sort(sortOptions);
+
+    // Optional safe pagination
+    if (limit) {
+      const parsedLimit = Math.min(Math.max(1, parseInt(limit, 10) || 50), 500);
+      const parsedPage = Math.max(1, parseInt(page, 10) || 1);
+      query = query.skip((parsedPage - 1) * parsedLimit).limit(parsedLimit);
+    }
+
+    const expenses = await query;
     res.status(200).json(expenses);
   } catch (error) {
     next(error);

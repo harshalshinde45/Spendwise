@@ -150,7 +150,22 @@ export function exportToJSONString(expenses, budgets) {
 }
 
 /**
- * Export expenses to a CSV string.
+ * Neutralize CSV / formula injection (CWE-1236).
+ * If a cell begins with =, +, -, @, \t, or \r, prepend a single quote to force text interpretation.
+ * @param {any} val
+ * @returns {string}
+ */
+export function sanitizeCSVField(val) {
+  if (val === null || val === undefined) return '';
+  const str = String(val);
+  if (/^[=+\-@\t\r]/.test(str)) {
+    return `'${str}`;
+  }
+  return str;
+}
+
+/**
+ * Export expenses to a CSV string with formula-injection defenses.
  * @param {Array<Object>} expenses 
  * @returns {string} CSV format
  */
@@ -158,14 +173,15 @@ export function exportToCSVString(expenses = []) {
   const headers = ['ID', 'Date', 'Category', 'Amount (INR)', 'Amount (Paise)', 'Description', 'CreatedAt'];
   const rows = expenses.map(exp => {
     const rupees = ((exp.amountPaise || 0) / 100).toFixed(2);
-    const escapedDesc = `"${(exp.description || '').replace(/"/g, '""')}"`;
+    const safeDesc = sanitizeCSVField(exp.description || '').replace(/"/g, '""');
+    const safeCat = sanitizeCSVField(exp.category || '').replace(/"/g, '""');
     return [
       exp.id,
       exp.date,
-      `"${exp.category}"`,
+      `"${safeCat}"`,
       rupees,
       exp.amountPaise,
-      escapedDesc,
+      `"${safeDesc}"`,
       exp.createdAt || '',
     ].join(',');
   });

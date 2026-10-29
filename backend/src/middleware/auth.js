@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'spendwise_jwt_secret_dev_2026_secure';
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
+import { env } from '../config/env.js';
 
 /**
  * Generate a signed JWT token for an authenticated user.
@@ -13,8 +11,8 @@ export function generateToken(user) {
     name: user.name,
   };
 
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
+  return jwt.sign(payload, env.JWT_SECRET, {
+    expiresIn: env.JWT_EXPIRES_IN,
   });
 }
 
@@ -40,7 +38,7 @@ export function requireAuth(req, res, next) {
       });
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, env.JWT_SECRET);
     req.user = {
       id: decoded.id,
       email: decoded.email,

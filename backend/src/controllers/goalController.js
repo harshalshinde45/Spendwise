@@ -142,7 +142,7 @@ export async function deleteGoal(req, res, next) {
 
 /**
  * POST /api/goals/:id/contribute
- * Add savings towards a goal owned by the authenticated user.
+ * Add savings towards a goal owned by the authenticated user using atomic increment.
  */
 export async function contributeToGoal(req, res, next) {
   try {
@@ -157,15 +157,18 @@ export async function contributeToGoal(req, res, next) {
       return res.status(400).json({ error: 'Validation Error', message: 'Contribution amount must be a positive integer in paise.' });
     }
 
-    const goal = await Goal.findOne({ _id: id, userId: req.user.id });
-    if (!goal) {
+    // Atomic increment preventing race conditions and lost updates
+    const updatedGoal = await Goal.findOneAndUpdate(
+      { _id: id, userId: req.user.id },
+      { $inc: { savedPaise: parsedAmount } },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedGoal) {
       return res.status(404).json({ error: 'Not Found', message: 'Savings goal not found or belongs to another user.' });
     }
 
-    goal.savedPaise += parsedAmount;
-    await goal.save();
-
-    res.status(200).json(goal);
+    res.status(200).json(updatedGoal);
   } catch (error) {
     next(error);
   }

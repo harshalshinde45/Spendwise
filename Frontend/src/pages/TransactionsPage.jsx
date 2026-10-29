@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useExpense } from '../context/ExpenseContext';
 import { PageHeader } from '../components/PageHeader';
 import { SearchAndFilters } from '../components/SearchAndFilters';
@@ -17,11 +17,20 @@ export function TransactionsPage() {
   } = useExpense();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [minAmount, setMinAmount] = useState('');
   const [maxAmount, setMaxAmount] = useState('');
   const [sortBy, setSortBy] = useState('date-desc');
   const [scopeAllMonths, setScopeAllMonths] = useState(false);
+
+  // Debounce search query to prevent heavy array filtering on every rapid keystroke
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const monthLabel = formatMonthReadable(selectedMonth);
 
@@ -30,8 +39,8 @@ export function TransactionsPage() {
     // 1. Initial pool based on month scope
     const basePool = scopeAllMonths ? expenses : monthlyExpenses;
 
-    // 2. Filter by search query (matches description or category)
-    const query = searchQuery.trim().toLowerCase();
+    // 2. Filter by debounced search query (matches description or category)
+    const query = debouncedSearchQuery.trim().toLowerCase();
     let result = query
       ? basePool.filter((exp) => {
           const matchDesc = (exp.description || '').toLowerCase().includes(query);

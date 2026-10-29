@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
 import {
   migrateLocalStorageData,
   clearAllDatabaseData,
@@ -12,7 +12,8 @@ const router = Router();
 router.use(requireDatabase);
 router.use(requireAuth);
 
-router.post('/migrate', migrateLocalStorageData);
+// Allow up to 2mb specifically for batch migration imports
+router.post('/migrate', express.json({ limit: '2mb' }), migrateLocalStorageData);
 router.delete('/data', clearAllDatabaseData);
 
 export default router;

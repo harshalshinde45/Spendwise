@@ -315,6 +315,20 @@ describe('Storage and Serialization Utilities', () => {
     expect(csv).toContain('"Snack, with comma"');
   });
 
+  it('neutralizes CSV formula injection characters (=, +, -, @, tab) in exported CSV', () => {
+    const maliciousExpenses = [
+      { id: 'exp1', amountPaise: 50000, category: '=cmd|calc', date: '2026-10-23', description: '=SUM(A1:A10)' },
+      { id: 'exp2', amountPaise: 2000, category: '+Dangerous', date: '2026-10-23', description: '@alert(1)' },
+      { id: 'exp3', amountPaise: 1000, category: '-Subtraction', date: '2026-10-23', description: '\tTabbedFormula' },
+    ];
+    const csv = exportToCSVString(maliciousExpenses);
+    // Formula characters must be prepended with a single quote '
+    expect(csv).toContain('"\'=SUM(A1:A10)"');
+    expect(csv).toContain('"\'=cmd|calc"');
+    expect(csv).toContain('"\'@alert(1)"');
+    expect(csv).toContain('"\'\tTabbedFormula"');
+  });
+
   it('defines persistent theme storage key', () => {
     expect(STORAGE_KEYS.THEME).toBe('spendwise:v1:theme');
   });
