@@ -185,7 +185,7 @@ export function ExpenseModal() {
         err.message.includes('Cannot POST')
       ) {
         userFriendlyMessage =
-          'AI parsing endpoint not found on backend. Please restart your backend server (npm run dev in backend) to activate newly mounted routes.';
+          'AI parsing endpoint (POST /api/ai/parse-expense) was not found on the connected backend. If developing locally, ensure the Express server on port 5001 is running the latest code. If in production, ensure your Render backend deployment is up to date.';
       }
 
       setAiError(userFriendlyMessage);
